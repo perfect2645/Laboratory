@@ -1,7 +1,20 @@
-﻿namespace LeetCode.numbers
+﻿using System.Diagnostics;
+
+namespace LeetCode.numbers
 {
     public class PrimeCounter
     {
+
+        public PrimeCounter()
+        {
+            // Example usage
+
+            int num = 102;
+            //int count = CopilotCountPrimes(num);
+            int count = CountPrimes(num);
+            Debug.WriteLine($"Number of primes up to {num}: {count}");
+
+        }
 
         #region Generated Code by Copilot
 
@@ -42,5 +55,27 @@
         }
 
         #endregion 
+
+
+        private int CountPrimes(int n)
+        {
+            var count = 0;
+            var isCompositeArr = new bool[n + 1]; // Initialize an array defaultd to prime (false)
+
+            for (int i = 2; i < isCompositeArr.Length; i++)
+            {
+                if (!isCompositeArr[i])
+                {
+                    count++;
+
+                    for (int j = i * i; j < isCompositeArr.Length; j += i)
+                    {
+                        isCompositeArr[j] = true; // Mark multiples of i as composite
+                    }
+                }
+            }
+
+            return count;
+        }
     }
 }
