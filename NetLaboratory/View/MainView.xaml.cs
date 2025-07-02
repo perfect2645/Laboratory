@@ -24,5 +24,10 @@ namespace NetLaboratory.View
         {
             new DuplicateRemoval();
         }
+
+        private void CenterIndex_Click(object sender, RoutedEventArgs e)
+        {
+            new CenterIndex();
+        }
     }
 }

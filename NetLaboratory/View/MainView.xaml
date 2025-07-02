@@ -11,6 +11,7 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <Button Content="PrimeCounter" Click="PrimeCounter_Click" />
             <Button Content="DuplicateRemoval" Click="DuplicateRemoval_Click" />
+            <Button Content="CenterIndex" Click="CenterIndex_Click" />
         </StackPanel>
     </Grid>
 </Page>
