@@ -10,10 +10,15 @@
   <ItemGroup>
     <PackageReference Include="MaterialDesignColors" Version="5.2.1" />
     <PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+    <PackageReference Include="QuikGraph" Version="2.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="MaterialDesign\Buttons\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="readme.md" />
   </ItemGroup>
 
 </Project>
