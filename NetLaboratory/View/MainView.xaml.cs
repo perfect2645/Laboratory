@@ -29,5 +29,20 @@ namespace NetLaboratory.View
         {
             new CenterIndex();
         }
+
+        private void TargetSum_Click(object sender, RoutedEventArgs e)
+        {
+            new TargetSum();
+        }
+
+        private void AsyncTest_Click(object sender, RoutedEventArgs e)
+        {
+            new LeetCode.task.AsyncTest();
+        }
+
+        private void FibonacciSequence_Click(object sender, RoutedEventArgs e)
+        {
+            new LeetCode.numbers.FibonacciSequence();
+        }
     }
 }
