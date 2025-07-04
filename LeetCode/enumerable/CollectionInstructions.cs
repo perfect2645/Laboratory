@@ -348,7 +348,6 @@ namespace LeetCode.enumerable
 
             // IEnumerable<T>
             IEnumerable<string> enumerable = list.Where(x => x.Length > 5);
-            IEnumerator
             // IQueryable<T>
             IQueryable<string> queryable = list.AsQueryable().Where(x => x.Length > 5);
         }
