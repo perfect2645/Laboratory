@@ -54,5 +54,10 @@ namespace NetLaboratory.View
         {
             new CollectionInstructions();
         }
+
+        private void MinionGame_Click(object sender, RoutedEventArgs e)
+        {
+            new LeetCode.strings.MinionGame();
+        }
     }
 }

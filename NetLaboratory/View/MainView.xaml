@@ -15,12 +15,15 @@
             <Button Content="LadderCoins" Click="LadderCoins_Click" />
             <Button Content="FibonacciSequence" Click="FibonacciSequence_Click" />
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal" ToolTip="array">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" ToolTip="string">
+            <Button Content="MinionGame" Click="MinionGame_Click" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" ToolTip="array">
             <Button Content="DuplicateRemoval" Click="DuplicateRemoval_Click" />
             <Button Content="CenterIndex" Click="CenterIndex_Click" />
             <Button Content="CollectionInstructions" Click="CollectionInstructions_Click" />
         </StackPanel>
-        <StackPanel Grid.Row="2" Orientation="Horizontal">
+        <StackPanel Grid.Row="3" Orientation="Horizontal">
             <Button Content="AsyncTest" Click="AsyncTest_Click" />
         </StackPanel>
     </Grid>
