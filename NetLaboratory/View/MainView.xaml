@@ -8,6 +8,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" ToolTip="number">
             <Button Content="PrimeCounter" Click="PrimeCounter_Click" />
@@ -24,6 +26,9 @@
             <Button Content="CollectionInstructions" Click="CollectionInstructions_Click" />
         </StackPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
+            <Button Content="ClosestRoutes" Click="ClosestRoutes_Click" />
+        </StackPanel>
+        <StackPanel Grid.Row="4" Orientation="Horizontal">
             <Button Content="AsyncTest" Click="AsyncTest_Click" />
         </StackPanel>
     </Grid>

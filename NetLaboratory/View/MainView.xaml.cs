@@ -59,5 +59,10 @@ namespace NetLaboratory.View
         {
             new LeetCode.strings.MinionGame();
         }
+
+        private void ClosestRoutes_Click(object sender, RoutedEventArgs e)
+        {
+            new LeetCode.grid.ClosestRoutes();
+        }
     }
 }
