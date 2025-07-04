@@ -26,8 +26,5 @@ namespace Utils.Enumerable
 
             return sb.ToString();
         }
-
     }
-
-
 }
