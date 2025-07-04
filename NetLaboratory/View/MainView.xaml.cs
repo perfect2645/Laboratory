@@ -44,5 +44,15 @@ namespace NetLaboratory.View
         {
             new LeetCode.numbers.FibonacciSequence();
         }
+
+        private void LadderCoins_Click(object sender, RoutedEventArgs e)
+        {
+            new LeetCode.numbers.LadderCoins();
+        }
+
+        private void CollectionInstructions_Click(object sender, RoutedEventArgs e)
+        {
+            new CollectionInstructions();
+        }
     }
 }

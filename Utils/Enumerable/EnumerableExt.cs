@@ -1,4 +1,6 @@
-﻿namespace Utils.Enumerable
+﻿using System.Text;
+
+namespace Utils.Enumerable
 {
     public static class EnumerableExt
     {
@@ -11,5 +13,21 @@
 
             return list.Count() > 0;
         }
+
+        public static string NotNullString<T>(this IEnumerable<T>? list, string separater = ",")
+        {
+            if (!list.HasItem())
+            {
+                return string.Empty;
+            }
+
+            var sb = new StringBuilder();
+            sb.AppendJoin(separater, list!.ToArray());
+
+            return sb.ToString();
+        }
+
     }
+
+
 }

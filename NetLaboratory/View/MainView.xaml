@@ -9,14 +9,18 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" ToolTip="number">
             <Button Content="PrimeCounter" Click="PrimeCounter_Click" />
-            <Button Content="DuplicateRemoval" Click="DuplicateRemoval_Click" />
-            <Button Content="CenterIndex" Click="CenterIndex_Click" />
             <Button Content="TargetSum" Click="TargetSum_Click" />
+            <Button Content="LadderCoins" Click="LadderCoins_Click" />
             <Button Content="FibonacciSequence" Click="FibonacciSequence_Click" />
         </StackPanel>
-        <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <StackPanel Grid.Row="1" Orientation="Horizontal" ToolTip="array">
+            <Button Content="DuplicateRemoval" Click="DuplicateRemoval_Click" />
+            <Button Content="CenterIndex" Click="CenterIndex_Click" />
+            <Button Content="CollectionInstructions" Click="CollectionInstructions_Click" />
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button Content="AsyncTest" Click="AsyncTest_Click" />
         </StackPanel>
     </Grid>
