@@ -64,5 +64,10 @@ namespace NetLaboratory.View
         {
             new LeetCode.grid.ClosestRoutes();
         }
+
+        private void Bomberman_Click(object sender, RoutedEventArgs e)
+        {
+            new LeetCode.grid.BombermanGame();
+        }
     }
 }

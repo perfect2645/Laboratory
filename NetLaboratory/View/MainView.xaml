@@ -27,6 +27,7 @@
         </StackPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
             <Button Content="ClosestRoutes" Click="ClosestRoutes_Click" />
+            <Button Content="Bomberman" Click="Bomberman_Click" />
         </StackPanel>
         <StackPanel Grid.Row="4" Orientation="Horizontal">
             <Button Content="AsyncTest" Click="AsyncTest_Click" />
