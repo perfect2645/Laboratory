@@ -19,6 +19,7 @@
         </StackPanel>
         <StackPanel Grid.Row="1" Orientation="Horizontal" ToolTip="string">
             <Button Content="MinionGame" Click="MinionGame_Click" />
+            <Button Content="KMP" Click="KMP_Click" />
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal" ToolTip="array">
             <Button Content="DuplicateRemoval" Click="DuplicateRemoval_Click" />

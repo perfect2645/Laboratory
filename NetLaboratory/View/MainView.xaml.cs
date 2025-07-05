@@ -1,5 +1,6 @@
 ﻿using LeetCode.enumerable;
 using LeetCode.numbers;
+using LeetCode.strings;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -73,6 +74,11 @@ namespace NetLaboratory.View
         private void PhoneNumberComb_Click(object sender, RoutedEventArgs e)
         {
             new PhoneNumberComb();
+        }
+
+        private void KMP_Click(object sender, RoutedEventArgs e)
+        {
+            new KMP();
         }
     }
 }
