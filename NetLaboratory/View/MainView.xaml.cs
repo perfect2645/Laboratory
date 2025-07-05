@@ -69,5 +69,10 @@ namespace NetLaboratory.View
         {
             new LeetCode.grid.BombermanGame();
         }
+
+        private void PhoneNumberComb_Click(object sender, RoutedEventArgs e)
+        {
+            new PhoneNumberComb();
+        }
     }
 }

@@ -8,9 +8,9 @@ namespace LeetCode.numbers
 
         public FibonacciSequence()
         {
-            //var target_1 = GetIndexOf_recursion‌(7); // 13
+            var target_1 = GetIndexOf_recursion‌(7); // 13
             //count = 0;
-            var target_2 = GetIndexOf_iterative(7); // 13
+            //var target_2 = GetIndexOf_iterative(7); // 13
             count = 0;
         }
 

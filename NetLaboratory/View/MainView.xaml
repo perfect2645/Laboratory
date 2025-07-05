@@ -24,6 +24,7 @@
             <Button Content="DuplicateRemoval" Click="DuplicateRemoval_Click" />
             <Button Content="CenterIndex" Click="CenterIndex_Click" />
             <Button Content="CollectionInstructions" Click="CollectionInstructions_Click" />
+            <Button Content="PhoneNumberComb" Click="PhoneNumberComb_Click" />
         </StackPanel>
         <StackPanel Grid.Row="3" Orientation="Horizontal">
             <Button Content="ClosestRoutes" Click="ClosestRoutes_Click" />
