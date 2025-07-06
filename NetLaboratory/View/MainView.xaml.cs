@@ -1,4 +1,5 @@
-﻿using LeetCode.enumerable;
+﻿using LeetCode;
+using LeetCode.enumerable;
 using LeetCode.numbers;
 using LeetCode.strings;
 using System.Windows;
@@ -79,6 +80,11 @@ namespace NetLaboratory.View
         private void KMP_Click(object sender, RoutedEventArgs e)
         {
             new KMP();
+        }
+
+        private void TurnStile_Click(object sender, RoutedEventArgs e)
+        {
+            new LeetCode.logic.TurnStile();
         }
     }
 }

@@ -10,6 +10,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" ToolTip="number">
             <Button Content="PrimeCounter" Click="PrimeCounter_Click" />
@@ -31,7 +32,10 @@
             <Button Content="ClosestRoutes" Click="ClosestRoutes_Click" />
             <Button Content="Bomberman" Click="Bomberman_Click" />
         </StackPanel>
-        <StackPanel Grid.Row="4" Orientation="Horizontal">
+        <StackPanel Grid.Row="4" Orientation="Horizontal" ToolTip="logic">
+            <Button Content="TurnStile" Click="TurnStile_Click" />
+        </StackPanel>
+        <StackPanel Grid.Row="5" Orientation="Horizontal">
             <Button Content="AsyncTest" Click="AsyncTest_Click" />
         </StackPanel>
     </Grid>
