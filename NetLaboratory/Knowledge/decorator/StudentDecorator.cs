@@ -17,6 +17,4 @@
             Console.WriteLine($"Decorator: {Name} is studying with additional features.");
         }
     }
-    {
-    }
 }
