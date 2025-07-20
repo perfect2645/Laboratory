@@ -33,7 +33,7 @@ namespace WpfControls.MaterialDesign
             ContextMenus.Add(new ContextMenuItem
             {
                 Header = "Power Off",
-                Command = new RelayCommand(() => PowerMode = PowerMode.Off),
+                Command = new RelayCommand(() => PowerMode = PowerMode.On),
                 CommandParameter = PowerMode.Off
             });
 
