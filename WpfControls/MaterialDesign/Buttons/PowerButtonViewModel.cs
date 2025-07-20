@@ -8,19 +8,19 @@ namespace WpfControls.MaterialDesign
 {
     public partial class PowerButtonViewModel : NotifyChanged, IContextMenu
     {
+        #region Init
 
         private PowerMode _powerMode;
 
         public PowerMode PowerMode
         {
             get { return _powerMode; }
-            set 
-            { 
+            set
+            {
                 _powerMode = value;
                 NotifyUI(() => PowerMode);
             }
         }
-
 
         public PowerButtonViewModel()
         {
@@ -33,11 +33,13 @@ namespace WpfControls.MaterialDesign
             ContextMenus.Add(new ContextMenuItem
             {
                 Header = "Power Off",
-                Command = new RelayCommand(() => PowerMode = PowerMode.On),
+                Command = new AsyncRelayCommand<PowerMode>(ExecutePowerChanged, CanExecutePowerChanged),
                 CommandParameter = PowerMode.Off
             });
 
         }
+
+        #endregion Init
 
         #region IContextMenu
 
@@ -81,9 +83,18 @@ namespace WpfControls.MaterialDesign
             return false;
         }
 
+        private async Task ExecutePowerChanged(PowerMode powerMode)
+        {
+            
+        }
+
+        private bool CanExecutePowerChanged(PowerMode powerMode)
+        {
+            return powerMode != PowerMode;
+        }
+
         #endregion IContextMenu
     }
-
 
     public enum PowerMode
     {
