@@ -36,6 +36,18 @@ namespace WpfControls.MaterialDesign
                 Command = new AsyncRelayCommand<PowerMode>(ExecutePowerChanged, CanExecutePowerChanged),
                 CommandParameter = PowerMode.Off
             });
+            ContextMenus.Add(new ContextMenuItem
+            {
+                Header = "Power On",
+                Command = new AsyncRelayCommand<PowerMode>(ExecutePowerChanged, CanExecutePowerChanged),
+                CommandParameter = PowerMode.On
+            });
+            ContextMenus.Add(new ContextMenuItem
+            {
+                Header = "Disabled",
+                Command = new AsyncRelayCommand<PowerMode>(ExecutePowerChanged, CanExecutePowerChanged),
+                CommandParameter = PowerMode.Disabled
+            });
 
         }
 
@@ -85,7 +97,8 @@ namespace WpfControls.MaterialDesign
 
         private async Task ExecutePowerChanged(PowerMode powerMode)
         {
-            
+            await Task.Delay(1000);
+            PowerMode = powerMode;
         }
 
         private bool CanExecutePowerChanged(PowerMode powerMode)

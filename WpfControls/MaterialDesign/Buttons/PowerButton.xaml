@@ -21,10 +21,6 @@
             </Style.Triggers>
         </Style>
 
-        <DataTemplate x:Key="MenuItemTemplate">
-            <TextBlock Text="{Binding Header}" Padding="16,4" />
-        </DataTemplate>
-
     </UserControl.Resources>
     <Grid DataContext="{Binding ViewModel, ElementName=PowerButtonCtrl}">
         <Button>
@@ -35,8 +31,8 @@
                         <Style TargetType="MenuItem" BasedOn="{StaticResource MaterialDesignMenuItem}">
                             <Setter Property="Header" Value="{Binding Header}" />
                             <Setter Property="Command" Value="{Binding Command}" />
+                            <Setter Property="CommandParameter" Value="{Binding CommandParameter}" />
                             <Setter Property="Icon" Value="{Binding Icon}" />
-                            <Setter Property="IsEnabled" Value="{Binding IsEnabled}" />
                         </Style>
                     </ContextMenu.ItemContainerStyle>
                 </ContextMenu>
