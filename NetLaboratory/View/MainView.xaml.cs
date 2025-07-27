@@ -16,5 +16,10 @@ namespace NetLaboratory.View
         {
             InitializeComponent();
         }
+
+        private void HandleButtonClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
