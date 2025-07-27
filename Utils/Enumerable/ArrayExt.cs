@@ -8,27 +8,31 @@ namespace Utils.Enumerable
         /// <summary>
         /// 打印一维或多维数组到控制台
         /// </summary>
-        public static string? Print(this Array array)
+        public static string? Print(this Array array, char separator = ' ')
         {
-            if (array == null)
+            if (array == null || array.Length < 2)
             {
-                return null;
+                return array?.GetValue(0)?.ToString();
             }
 
-            char separator = ' ';
-
             int rank = array.Rank;
+            var sb = new StringBuilder();
             if (rank == 1)
             {
-                var sb = new StringBuilder();
-                sb.AppendJoin(separator, array);
+                var first = array.GetValue(0);
+                for (int i = 0; i < array.Length - 1; i ++)
+                {
+                    sb.Append(array.GetValue(i));
+                    sb.Append(separator);
+                }
+
+                sb.Append(array.GetValue(array.Length - 1));
                 return sb.ToString();
             }
             else if (rank == 2)
             {
                 int rows = array.GetLength(0);
                 int cols = array.GetLength(1);
-                var sb = new StringBuilder();
                 for (int i = 0; i < rows; i++)
                 {
                     for (int j = 0; j < cols; j++)

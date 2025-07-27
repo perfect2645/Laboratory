@@ -1,5 +1,6 @@
 ﻿using LeetCode.enumerable;
 using LeetCode.numbers;
+using LeetCode.numbers.sort;
 using LeetCode.strings;
 using System;
 using System.Collections.Generic;
@@ -99,5 +100,9 @@ namespace NetLaboratory.View
             new LeetCode.logic.TurnStile();
         }
 
+        private void SortTest_Click(object sender, RoutedEventArgs e)
+        {
+            new SortTest();
+        }
     }
 }
