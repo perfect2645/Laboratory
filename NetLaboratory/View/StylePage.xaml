@@ -19,11 +19,16 @@
     <StackPanel Margin="20" Orientation="Vertical">
         <TextBlock FontSize="18" FontWeight="Bold" Text="按钮ViewModel示例" />
 
-        <!-- 按钮列表 -->
+        <Button Style="{StaticResource BaseButtonStyle}"
+            Content="{Binding PrimaryButton}"
+            ContentTemplateSelector="{StaticResource ButtonTemplateSelector}"
+            Height="40"/>
+
+            <!-- 按钮列表 -->
         <ItemsControl ItemsSource="{Binding Buttons}">
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button 
+                    <Button Style="{StaticResource BaseButtonStyle}"
                         Margin="0,5"
                         Content="{Binding}"
                         ContentTemplateSelector="{StaticResource ButtonTemplateSelector}"
@@ -37,7 +42,7 @@
         <Separator Height="2" Background="#EEEEEE"/>
 
         <!-- 动态按钮 -->
-        <Button 
+        <Button Style="{StaticResource BaseButtonStyle}"
             Content="{Binding DynamicButton}"
             ContentTemplateSelector="{StaticResource ButtonTemplateSelector}"
             Command="{Binding DynamicButton.ClickCommand}"

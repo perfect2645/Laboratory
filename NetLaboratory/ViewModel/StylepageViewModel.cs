@@ -7,7 +7,7 @@ namespace NetLaboratory.ViewModel
 {
     public partial class StylePageViewModel
     {
-        // 按钮ViewModel集合
+        public ThemableButtonViewModel PrimaryButton { get; }
         public ObservableCollection<ThemableButtonViewModel> Buttons { get; }
 
         // 动态按钮的ViewModel
@@ -21,6 +21,12 @@ namespace NetLaboratory.ViewModel
 
         public StylePageViewModel()
         {
+            // 初始化单个按钮
+            PrimaryButton = new ThemableButtonViewModel(
+                content: "主要操作",
+                buttonType: ButtonType.Primary,
+                clickAction: ExecutePrimary
+            );
             // 初始化按钮集合
             Buttons = new ObservableCollection<ThemableButtonViewModel>
             {
@@ -37,6 +43,10 @@ namespace NetLaboratory.ViewModel
 
             // 初始化切换命令
             SwitchDynamicButtonTypeCommand = new RelayCommand<object>(HandleSwitchDynamicButtonType);
+        }
+
+        private void ExecutePrimary(ThemableButtonViewModel button)
+        {
         }
 
         // 各种按钮的处理逻辑
