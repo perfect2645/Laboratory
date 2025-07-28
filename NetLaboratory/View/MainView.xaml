@@ -10,11 +10,6 @@
       Title="MainView">
     <Page.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/WpfControls;component/MaterialDesign/Buttons/ThemableButtonStyle.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-
-            <!-- 空值转可见性转换器 -->
         </ResourceDictionary>
     </Page.Resources>
     <TabControl >
@@ -25,30 +20,7 @@
                         <controls:PowerButton Width="100" Height="30">
 
                         </controls:PowerButton>
-                        <StackPanel Margin="20" Background="AliceBlue">
-                            <!-- 子项目1样式按钮 -->
-                            <customButtons:ThemableButton Height="30"
-                                Style="{StaticResource Project1ButtonStyle}"
-                             Content="提交"
-                             Click="HandleButtonClick"/>
-
-                            <!-- 带图标的子项目1样式按钮 --><!--
-                            <customButtons:ThemableButton Style="{StaticResource Project1ButtonStyle}"
-                             Content="保存"
-                             Icon="/Images/save.png"
-                             Click="HandleButtonClick"/>
-
-                            --><!-- 带子项目2样式和徽章的按钮 --><!--
-                            <customButtons:ThemableButton Style="{StaticResource Project2ButtonStyle}"
-                             Content="通知"
-                             BadgeText="3"
-                             Click="HandleButtonClick"/>
-
-                            --><!-- 图标按钮 --><!--
-                            <customButtons:ThemableButton Style="{StaticResource IconOnlyButtonStyle}"
-                             Icon="/Images/settings.png"
-                             Click="HandleButtonClick"/>-->
-                        </StackPanel>
+                        <local:StylePage></local:StylePage>
                     </StackPanel>
                 </view:BaseConsole.ConsoleContent>
             </view:BaseConsole>
