@@ -13,6 +13,15 @@
         </ResourceDictionary>
     </Page.Resources>
     <TabControl >
+        <TabItem Header="TaskPanel">
+            <view:BaseConsole Title="Test Async">
+                <view:BaseConsole.ConsoleContent>
+                    <StackPanel>
+                        <local:TaskPage></local:TaskPage>
+                    </StackPanel>
+                </view:BaseConsole.ConsoleContent>
+            </view:BaseConsole>
+        </TabItem>
         <TabItem Header="LogConsole">
             <view:BaseConsole Title="Console with log">
                 <view:BaseConsole.ConsoleContent>

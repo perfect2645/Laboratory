@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Text.Json;
+using Utils.Generic;
 using Utils.Json;
 
 namespace Utils.Enumerable

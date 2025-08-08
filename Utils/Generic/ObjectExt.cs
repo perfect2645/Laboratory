@@ -1,4 +1,4 @@
-﻿namespace Utils
+﻿namespace Utils.Generic
 {
     public static class ObjectExt
     {

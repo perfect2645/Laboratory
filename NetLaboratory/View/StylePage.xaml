@@ -22,7 +22,8 @@
         <Button Style="{StaticResource BaseButtonStyle}"
             Content="{Binding PrimaryButton}"
             ContentTemplateSelector="{StaticResource ButtonTemplateSelector}"
-            Height="40"/>
+            Height="50">
+        </Button>
 
             <!-- 按钮列表 -->
         <ItemsControl ItemsSource="{Binding Buttons}">

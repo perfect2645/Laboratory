@@ -6,8 +6,8 @@ namespace LeetCode.task
     {
         public AsyncTest()
         {
-            //TestAsyncFor();
-            RandomTest();
+            TestAsyncFor();
+            //RandomTest();
         }
 
         private void TestAsyncFor()
