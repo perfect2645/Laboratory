@@ -13,6 +13,15 @@
         </ResourceDictionary>
     </Page.Resources>
     <TabControl >
+        <TabItem Header="NetBasicPanel">
+            <view:BaseConsole Title="NetBasic">
+                <view:BaseConsole.ConsoleContent>
+                    <StackPanel>
+                        <local:NetBasicPage></local:NetBasicPage>
+                    </StackPanel>
+                </view:BaseConsole.ConsoleContent>
+            </view:BaseConsole>
+        </TabItem>
         <TabItem Header="TaskPanel">
             <view:BaseConsole Title="Test Async">
                 <view:BaseConsole.ConsoleContent>

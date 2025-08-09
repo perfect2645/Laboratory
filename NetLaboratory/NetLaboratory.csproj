@@ -17,4 +17,10 @@
     <ProjectReference Include="..\WpfControls\WpfControls.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="View\NetBasicPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+
 </Project>
