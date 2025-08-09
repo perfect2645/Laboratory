@@ -45,7 +45,7 @@ namespace LeetCode.task
             {
                 Count++;
             }
-            LogEvents.Publish($"[{Thread.CurrentThread.ManagedThreadId}]Count after increment: {Count}");
+            LogEvents.Publish($"[{Environment.CurrentManagedThreadId}]Count after increment: {Count}");
         }
 
         private void StaticIncrement()
@@ -54,7 +54,7 @@ namespace LeetCode.task
             {
                 StaticCount++;
             }
-            LogEvents.Publish($"[{Thread.CurrentThread.ManagedThreadId}]StaticCount after increment: {StaticCount}");
+            LogEvents.Publish($"[{Environment.CurrentManagedThreadId}]StaticCount after increment: {StaticCount}");
         }
     }
 }

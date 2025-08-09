@@ -22,7 +22,7 @@ namespace Utils.Events
         {
             var e = new LogEventArgs
             {
-                Message = $"[{Thread.CurrentThread.ManagedThreadId}]{message} - Time={DatetimeUtil.GetNow()}",
+                Message = $"[{Environment.CurrentManagedThreadId}]{message} - Time={DatetimeUtil.GetNow()}",
             };
             PrintLogEvent?.Invoke(null, e);
         }
@@ -32,7 +32,7 @@ namespace Utils.Events
             var e = new LogEventArgs
             {
                 Items = new Dictionary<string, object>(),
-                Message = $"[{Thread.CurrentThread.ManagedThreadId}]{message ?? sender?.GetType()?.Name} - Time={DatetimeUtil.GetNow()}",
+                Message = $"[{Environment.CurrentManagedThreadId}]{message ?? sender?.GetType()?.Name} - Time={DatetimeUtil.GetNow()}",
             };
             PrintLogEvent?.Invoke(sender, e);
         }

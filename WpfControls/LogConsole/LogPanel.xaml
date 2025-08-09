@@ -10,6 +10,7 @@
                    Height="Auto"
                    MinWidth="300"
                    MinHeight="200"
+                     VerticalContentAlignment="Top"
                    FontSize="12"
                    Background="AliceBlue"
                    SelectionTextBrush="YellowGreen"

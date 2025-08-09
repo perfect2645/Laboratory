@@ -8,10 +8,14 @@
     </UserControl.DataContext>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
-        <Button Command="{Binding CounterCommand}" Content="Counter" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <Button Command="{Binding AsyncAwaitCommand}" Content="AsyncAwait" />
+            <Button Command="{Binding CounterCommand}" Content="Counter" />
+            <Button Command="{Binding SemaphoreCommand}" Content="Semaphore" />
+        </StackPanel>
     </Grid>
 </UserControl>

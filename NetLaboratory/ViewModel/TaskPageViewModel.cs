@@ -17,23 +17,40 @@ namespace NetLaboratory.ViewModel
         #region Properties
 
         public ICommand CounterCommand { get; }
-        private Counter counter;
-
+        public ICommand SemaphoreCommand { get; }
+        public ICommand AsyncAwaitCommand { get; }
 
         #endregion Properties
 
         public TaskPageViewModel()
         {
-            counter = new Counter();
             CounterCommand = new RelayCommand(ExecuteCounter);
+            SemaphoreCommand = new RelayCommand(ExecuteSemaphore);
+            AsyncAwaitCommand = new RelayCommand(ExecuteAsyncAwait);
         }
+
+
 
         #region Actions
 
         private void ExecuteCounter()
         {
-            //counter.Show();
+            var counter = new Counter();
             counter.StaticShow();
+        }
+
+        private void ExecuteSemaphore()
+        {
+            new SemaphoreTest().Run();
+        }
+
+        private void ExecuteAsyncAwait()
+        {
+            //new AsyncTest().Bootstrap();
+            var asyncTest = new AsyncTest();
+            //asyncTest.TestWait();
+            //asyncTest.TestConfigAwait();
+            asyncTest.TestUIThreadDeadlockAsync();
         }
         #endregion Actions
     }
