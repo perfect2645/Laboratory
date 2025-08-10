@@ -16,6 +16,7 @@
             <Button Command="{Binding AsyncAwaitCommand}" Content="AsyncAwait" />
             <Button Command="{Binding CounterCommand}" Content="Counter" />
             <Button Command="{Binding SemaphoreCommand}" Content="Semaphore" />
+            <Button Command="{Binding TimeoutCommand}" Content="Timeout" />
         </StackPanel>
     </Grid>
 </UserControl>

@@ -19,6 +19,7 @@ namespace NetLaboratory.ViewModel
         public ICommand CounterCommand { get; }
         public ICommand SemaphoreCommand { get; }
         public ICommand AsyncAwaitCommand { get; }
+        public ICommand TimeoutCommand { get; }
 
         #endregion Properties
 
@@ -27,6 +28,7 @@ namespace NetLaboratory.ViewModel
             CounterCommand = new RelayCommand(ExecuteCounter);
             SemaphoreCommand = new RelayCommand(ExecuteSemaphore);
             AsyncAwaitCommand = new RelayCommand(ExecuteAsyncAwait);
+            TimeoutCommand = new RelayCommand(ExecuteTimeout);
         }
 
 
@@ -52,6 +54,13 @@ namespace NetLaboratory.ViewModel
             //asyncTest.TestConfigAwait();
             asyncTest.TestUIThreadDeadlockAsync();
         }
+
+        private void ExecuteTimeout()
+        {
+            var timeoutTest = new TaskTimeout();
+            var task = timeoutTest.HandleTaskTimeoutAsync();
+        }
+
         #endregion Actions
     }
 }
