@@ -20,6 +20,7 @@ namespace NetLaboratory.ViewModel
         public ICommand SemaphoreCommand { get; }
         public ICommand AsyncAwaitCommand { get; }
         public ICommand TimeoutCommand { get; }
+        public ICommand ChannelCommand { get; }
 
         #endregion Properties
 
@@ -29,7 +30,7 @@ namespace NetLaboratory.ViewModel
             SemaphoreCommand = new RelayCommand(ExecuteSemaphore);
             AsyncAwaitCommand = new RelayCommand(ExecuteAsyncAwait);
             TimeoutCommand = new RelayCommand(ExecuteTimeout);
-        }
+            ChannelCommand = new RelayCommand(ExecuteChannel);        }
 
 
 
@@ -60,6 +61,12 @@ namespace NetLaboratory.ViewModel
             var timeoutTest = new TaskTimeout();
             var task = timeoutTest.HandleTaskTimeoutAsync();
         }
+
+        private void ExecuteChannel()
+        {
+            var channelTest = new ChannelDemo();
+            var task = channelTest.RunAsync();
+        }   
 
         #endregion Actions
     }

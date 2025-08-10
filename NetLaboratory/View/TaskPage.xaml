@@ -17,6 +17,7 @@
             <Button Command="{Binding CounterCommand}" Content="Counter" />
             <Button Command="{Binding SemaphoreCommand}" Content="Semaphore" />
             <Button Command="{Binding TimeoutCommand}" Content="Timeout" />
+            <Button Command="{Binding ChannelCommand}" Content="Channel" />
         </StackPanel>
     </Grid>
 </UserControl>
