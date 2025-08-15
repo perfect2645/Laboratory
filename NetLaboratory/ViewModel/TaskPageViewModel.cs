@@ -64,8 +64,11 @@ namespace NetLaboratory.ViewModel
 
         private void ExecuteChannel()
         {
-            var channelTest = new ChannelDemo();
-            var task = channelTest.RunAsync();
+            Task.Run(async () =>
+            {
+                var channelTest = new ChannelDemo();
+                await channelTest.RunAsync();
+            });
         }   
 
         #endregion Actions

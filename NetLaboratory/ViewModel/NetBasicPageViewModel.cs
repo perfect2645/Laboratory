@@ -32,7 +32,7 @@ namespace NetLaboratory.ViewModel
         private void ExecuteRefOut()
         {
             var refout = new RefOut();
-            //refout.RunStruct();
+            refout.RunStruct();
             refout.RunClass();
         }
         #endregion Actions

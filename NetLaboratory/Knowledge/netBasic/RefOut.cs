@@ -52,6 +52,7 @@ namespace NetLaboratory.Knowledge.netBasic
             p.str = "ModifyStruct";
             if (p.refoutClass != null)
             {
+                //p.refoutClass = new RefoutClass();
                 p.refoutClass.classX = 666;
             }
         }
@@ -84,12 +85,12 @@ namespace NetLaboratory.Knowledge.netBasic
 
             var p2 = new Point(1,2);
             ModifyStruct(ref p2); // ref修饰符传递引用，p2改变
-            LogEvents.Publish($"p2 ModifyStruct(ref): X={p2.X}, Y={p2.Y}, str={p1.str}, refoutClass.classX={p2.refoutClass?.classX}");
+            LogEvents.Publish($"p2 ModifyStruct(ref): X={p2.X}, Y={p2.Y}, str={p2.str}, refoutClass.classX={p2.refoutClass?.classX}");
             // 输出: X=100, Y=200, str=ModifyStruct, refoutClass.classX=99
 
             Point p3; // out修饰符需要先声明变量
             CreateStruct(out p3); // out修饰符传递引用，p3被赋值
-            LogEvents.Publish($"p3 CreateStruct(out): X={p3.X}, Y={p3.Y}, str={p1.str}, refoutClass.classX={p3.refoutClass?.classX}");
+            LogEvents.Publish($"p3 CreateStruct(out): X={p3.X}, Y={p3.Y}, str={p3.str}, refoutClass.classX={p3.refoutClass?.classX}");
             // 输出: X=100, Y=200, str=ModifyStruct,refoutClass.classX = 99
         }
 

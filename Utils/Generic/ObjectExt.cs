@@ -35,5 +35,11 @@
             }
             return Convert.ToDouble(obj);
         }
+
+        public static string NotNullString(this object? source)
+        {
+            var strSource = source?.ToString();
+            return strSource ?? string.Empty;
+        }
     }
 }

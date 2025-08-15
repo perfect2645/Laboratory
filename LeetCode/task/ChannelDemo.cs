@@ -9,18 +9,21 @@ namespace LeetCode.task
         {
             var msgChannel = Channel.CreateUnbounded<Message>();
 
-            var messages = Enumerable.Range(1, 30).AsParallel().AsOrdered()
-                .Select(i => new Message(i, $"Message {i}")).ToList();
+            var messages1 = Enumerable.Range(1, 30).AsParallel().AsOrdered()
+                .Select(i => new Message(i, $"sender1 [{i}]")).ToList();
 
-            using var cts = new CancellationTokenSource();
-            var sender =  SendMessagesAsync(msgChannel.Writer, messages);
-            var receiver =  ReceiveMessagesAsync(msgChannel.Reader, cts.Token);
+            var messages2 = Enumerable.Range(1, 30).AsParallel().AsOrdered()
+                .Select(i => new Message(i, $"sender2 [{i}]")).ToList();
 
-            await sender;
+            var sender1 =  SendMessagesAsync(msgChannel.Writer, messages1);
+            var sender2 = SendMessagesAsync(msgChannel.Writer, messages2);
 
-            await Task.Delay(100); // make sure all messages are received
-            cts.Cancel(); // messages are all handled, stop the receiver
-            await receiver;
+            var receiver1 =  ReceiveMessagesAsync(msgChannel.Reader);
+            var receiver2 = ReceiveMessagesAsync(msgChannel.Reader);
+
+            await Task.WhenAll(sender1, sender2);
+            msgChannel.Writer.Complete();
+            await Task.WhenAll(receiver1, receiver2);
 
             LogEvents.Publish("ChannelDemo completed.");
         }
@@ -40,19 +43,27 @@ namespace LeetCode.task
             await Task.Delay(200); // Simulate some processing delay
         }
 
-        private async Task ReceiveMessagesAsync(ChannelReader<Message> reader, CancellationToken cancellationToken)
+        private async Task ReceiveMessagesAsync(ChannelReader<Message> reader)
+        {
+            await foreach(var message in reader.ReadAllAsync())
+            {
+                LogEvents.Publish($"Receiver: {message.Content} Received.");
+            }
+        }
+
+        private async Task ReceiveMessagesAsyncOld(ChannelReader<Message> reader)
         {
             try
             {
-                while (!cancellationToken.IsCancellationRequested)
+                while (!reader.Completion.IsCompleted)
                 {
-                    var message = await reader.ReadAsync(cancellationToken);
-                    LogEvents.Publish($"Receiver: {message.Id} Received.");
+                    var message = await reader.ReadAsync();
+                    LogEvents.Publish($"Receiver: {message.Content} Received.");
                 }
             }
-            catch (OperationCanceledException ex)
+            catch (ChannelClosedException ex)
             {
-                LogEvents.Publish($"Receiver was cancelled: {ex.Message}");
+                LogEvents.Publish($"Receiver ChannelClosed: {ex.Message}");
             }
             catch (Exception ex)
             {
