@@ -53,7 +53,7 @@ namespace React.Study.Services
             };
         }
 
-        public async Task<StudentDto> CreateStudentAsync(StudentDto studentDto)
+        public async Task<StudentDto> CreateStudentAsync(CreateStudentDto studentDto)
         {
             var student = new Student
             {
