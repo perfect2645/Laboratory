@@ -12,8 +12,8 @@ namespace React.Study.Services
         Task<IEnumerable<StudentDto>> GetAllStudentsAsync();
         Task<StudentDto?> GetStudentByIdAsync(int id);
         Task<StudentDto> CreateStudentAsync(CreateStudentDto studentDto);
-        Task<bool> UpdateStudentAsync(StudentDto studentDto);
-        Task<bool> DeleteStudentAsync(int id);
+        Task<StudentDto?> UpdateStudentAsync(StudentDto studentDto);
+        Task<StudentDto?> DeleteStudentAsync(int id);
         bool StudentExists(int id);
     }
 }

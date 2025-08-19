@@ -79,11 +79,11 @@ namespace React.Study.Services
             };
         }
 
-        public async Task<bool> UpdateStudentAsync(StudentDto studentDto)
+        public async Task<StudentDto?> UpdateStudentAsync(StudentDto studentDto)
         {
             var existingStudent = await _context.Students.FindAsync(studentDto.Id);
             if (existingStudent == null)
-                return false;
+                return null;
 
             existingStudent.Name = studentDto.Attributes.Name;
             existingStudent.Gender = studentDto.Attributes.Gender;
@@ -95,25 +95,35 @@ namespace React.Study.Services
             try
             {
                 await _context.SaveChangesAsync();
-                return true;
+                return studentDto;
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!StudentExists(studentDto.Id))
-                    return false;
+                    return null;
                 throw;
             }
         }
 
-        public async Task<bool> DeleteStudentAsync(int id)
+        public async Task<StudentDto?> DeleteStudentAsync(int id)
         {
             var student = await _context.Students.FindAsync(id);
             if (student == null)
-                return false;
+                return null;
 
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();
-            return true;
+            return new StudentDto
+            {
+                Id = student.Id,
+                Attributes = new StudentAttributes
+                {
+                    Name = student.Name,
+                    Gender = student.Gender,
+                    Age = student.Age,
+                    Address = student.Address
+                }
+            };
         }
 
         public bool StudentExists(int id)
