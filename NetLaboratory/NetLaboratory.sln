@@ -35,6 +35,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{3C17E76E
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImageToXaml", "..\ImageToXaml\ImageToXaml.csproj", "{8195C527-7D1C-4D5F-B44D-22448F788E82}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unittests", "unittests", "{41FC75EE-328D-40FC-A025-C11EFE656175}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LeetCode.Tests", "..\LeetCode.Tests\LeetCode.Tests.csproj", "{49B73630-97ED-43CE-AC23-5E21CDC6A182}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -85,6 +89,10 @@ Global
 		{8195C527-7D1C-4D5F-B44D-22448F788E82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8195C527-7D1C-4D5F-B44D-22448F788E82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8195C527-7D1C-4D5F-B44D-22448F788E82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49B73630-97ED-43CE-AC23-5E21CDC6A182}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49B73630-97ED-43CE-AC23-5E21CDC6A182}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49B73630-97ED-43CE-AC23-5E21CDC6A182}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49B73630-97ED-43CE-AC23-5E21CDC6A182}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -96,6 +104,7 @@ Global
 		{A46CF1A0-C328-450D-8133-975EEFA934D1} = {686BDA1F-50AD-41D9-88FE-EAEDF2682790}
 		{3A9C5A76-30FD-48C1-B766-0D8741CC3E7C} = {5BBA4DFC-CFBF-4490-8201-F71CC3D0DC0B}
 		{8195C527-7D1C-4D5F-B44D-22448F788E82} = {3C17E76E-8326-4389-A86B-48D0C2532FAE}
+		{49B73630-97ED-43CE-AC23-5E21CDC6A182} = {41FC75EE-328D-40FC-A025-C11EFE656175}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9826177B-ACD0-4532-9B98-9DA1D5883145}

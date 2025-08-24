@@ -1,4 +1,5 @@
 ﻿using Logging;
+using System.Threading.Tasks;
 
 namespace Utils.Tasking
 {
@@ -29,6 +30,34 @@ namespace Utils.Tasking
             {
                 Log4Logger.Logger.Warn($"The operation has timed out after {timeout.TotalMilliseconds} milliseconds.");
                 cts.Cancel();
+            }
+        }
+
+        public static async void SafeFireAndForget(this Task task, Action? onCompleted = null,
+            Action<Exception>? onError = null)
+        {
+            try
+            {
+                await task;
+                onCompleted?.Invoke();
+            }
+            catch (Exception ex)
+            {
+                onError?.Invoke(ex);
+            }
+        }
+
+        public static async void SafeFireAndForget<T>(this Task<T> task, Action<T>? onCompleted = null,
+            Action<Exception>? onError = null) where T : notnull
+        {
+            try
+            {
+                var result = await task;
+                onCompleted?.Invoke(result);
+            }
+            catch (Exception ex)
+            {
+                onError?.Invoke(ex);
             }
         }
     }

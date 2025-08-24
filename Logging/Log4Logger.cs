@@ -1,6 +1,5 @@
 ﻿using log4net;
 using log4net.Config;
-
 namespace Logging
 {
     public static class Log4Logger

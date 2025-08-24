@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using LeetCode.task;
+using Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Metrics;
@@ -59,7 +60,8 @@ namespace NetLaboratory.ViewModel
         private void ExecuteTimeout()
         {
             var timeoutTest = new TaskTimeout();
-            var task = timeoutTest.HandleTaskTimeoutAsync();
+            //_ = timeoutTest.HandleTaskTimeoutAsync();
+            _ = timeoutTest.FooAsync();
         }
 
         private void ExecuteChannel()
@@ -68,6 +70,7 @@ namespace NetLaboratory.ViewModel
             {
                 var channelTest = new ChannelDemo();
                 await channelTest.RunAsync();
+
             });
         }   
 
