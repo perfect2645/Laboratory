@@ -1,61 +1,34 @@
 ﻿using CommunityToolkit.Mvvm.Input;
+using ImageToXaml.services;
 using SharpVectors.Converters;
-using SharpVectors.Renderers;
 using SharpVectors.Renderers.Wpf;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Utils.Wpf;
 
 namespace ImageToXaml.viewmodels
 {
-    public class ConverterViewModel : NotifyChanged
+    public partial class ConverterViewModel : NotifyChanged
     {
+        #region Properties
         private WpfDrawingSettings _wpfSettings;
         public ICommand ConvertCommand { get; }
 
-        private string? _svgPath;
-        public string? SvgPath
-        {
-            get => _svgPath;
-            set
-            {
-                if (value == _svgPath)
-                {
-                    return;
-                }
-                _svgPath = value;
-                NotifyUI(() => SvgPath);
-                OnSvgPathChanged();
-            }
-        }
+        #endregion Properties
 
-        private string? _outputPath;
-        public string? OutputPath
-        {
-            get => _outputPath;
-            set
-            {
-                _outputPath = value;
-                NotifyUI(() => OutputPath);
-            }
-        }
-
-        public ConverterViewModel()
+        public ConverterViewModel(IFileDialogService fileDialogService)
         {
             _wpfSettings = new WpfDrawingSettings();
             _wpfSettings.IncludeRuntime = false;
             _wpfSettings.TextAsGeometry = false;
             ConvertCommand = new RelayCommand(ConvertImageToXaml, CanExecute);
+
+            _fileDialogService = fileDialogService;
+            InitFileDialog();
         }
 
         private bool CanExecute()
         {
-            if (string.IsNullOrEmpty(SvgPath))
+            if (string.IsNullOrEmpty(InputPath))
             {
                 return false;
             }
@@ -73,7 +46,7 @@ namespace ImageToXaml.viewmodels
             try
             {
                 var converter = new FileSvgConverter(_wpfSettings);
-                converter.Convert(SvgPath, OutputPath);
+                converter.Convert(InputPath, OutputPath);
             }
             catch (Exception ex)
             {
@@ -82,12 +55,9 @@ namespace ImageToXaml.viewmodels
             }
         }
 
-        private void OnSvgPathChanged()
+        private void OnInputPathChanged()
         {
-            if (string.IsNullOrEmpty(OutputPath))
-            {
-                OutputPath = SvgPath?.Replace(".svg", ".xaml");
-            }
+            OutputPath = InputPath?.Replace(".svg", ".xaml");
         }
     }
 }
