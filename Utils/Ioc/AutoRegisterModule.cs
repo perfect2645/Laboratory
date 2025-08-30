@@ -1,6 +1,5 @@
 ﻿
 using Autofac;
-using Autofac.Core.Lifetime;
 using System.Reflection;
 using Utils.Enumerable;
 
@@ -8,7 +7,6 @@ namespace Utils.Ioc
 {
     public class AutoRegisterModule : Autofac.Module
     {
-
         private readonly Assembly[] _assemblies;
 
         /// <summary>
