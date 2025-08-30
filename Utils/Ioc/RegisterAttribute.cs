@@ -4,7 +4,7 @@
     public class RegisterAttribute : Attribute
     {
         public Lifetime Lifetime { get; set; } = Lifetime.Transient;
-        public Type? ServiceType { get; set; }  // 可选：指定服务接口
+        public Type? ServiceType { get; set; }
     }
 
     public enum Lifetime
