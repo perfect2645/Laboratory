@@ -3,6 +3,7 @@ using Db.React.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 using React.Study.Dto;
 using React.Study.Repositories;
+using System.Linq.Expressions;
 using Utils.Ioc;
 
 namespace React.Study.Services
@@ -94,7 +95,8 @@ namespace React.Study.Services
                 Address = studentDto.Attributes.Address
             };
 
-            await _studentRepository.CreateAsync(student);
+            await _studentRepository.AddAsync(student);
+            await _studentRepository.SaveChangeAsync();
 
             return new StudentDto
             {
@@ -135,6 +137,7 @@ namespace React.Study.Services
             try
             {
                 await _studentRepository.UpdateAsync(existingStudent);
+                await _studentRepository.SaveChangeAsync();
                 return studentDto;
             }
             catch (DbUpdateConcurrencyException)
@@ -152,6 +155,7 @@ namespace React.Study.Services
                 return null;
 
             await _studentRepository.DeleteAsync(id);
+            await _studentRepository.SaveChangeAsync();
             return new StudentDto
             {
                 Id = student.Id,
@@ -167,7 +171,8 @@ namespace React.Study.Services
 
         public async Task<bool> StudentExistsAsync(int id)
         {
-            return await _studentRepository.ExistsAsync(id);
+            Expression<Func<Student, bool>> idExistsPredicate = stu => stu.Id == id;
+            return await _studentRepository.ExistAsync(idExistsPredicate);
         }
     }
 }
