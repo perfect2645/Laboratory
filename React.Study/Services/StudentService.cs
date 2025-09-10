@@ -1,5 +1,4 @@
-﻿using Db.React.Study.Configurations.Data;
-using Db.React.Study.Entities;
+﻿using Db.React.Study.Entities;
 using Microsoft.EntityFrameworkCore;
 using React.Study.Dto;
 using React.Study.Repositories;

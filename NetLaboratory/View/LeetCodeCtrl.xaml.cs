@@ -104,5 +104,10 @@ namespace NetLaboratory.View
         {
             new SortTest();
         }
+
+        private void InterviewTest_Click(object sender, RoutedEventArgs e)
+        {
+            new InterviewTest();
+        }
     }
 }

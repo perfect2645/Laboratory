@@ -12,6 +12,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" ToolTip="number">
             <Button Content="PrimeCounter" Click="PrimeCounter_Click" />
@@ -41,6 +42,9 @@
         </StackPanel>
         <StackPanel Grid.Row="6" Orientation="Horizontal">
             <Button Content="AsyncTest" Click="AsyncTest_Click" />
+        </StackPanel>
+        <StackPanel Grid.Row="7" Orientation="Horizontal">
+            <Button Content="Interview" Click="InterviewTest_Click" />
         </StackPanel>
     </Grid>
 </UserControl>
