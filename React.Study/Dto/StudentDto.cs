@@ -15,6 +15,7 @@ namespace React.Study.Dto
 
     public class StudentAttributes
     {
+        [Required(ErrorMessage = "姓名不能为空")]
         public required string Name { get; set; }
         public required string Gender { get; set; }
         [Required(ErrorMessage = "年龄不能为空")]
