@@ -110,12 +110,12 @@ namespace React.Study.Services
             };
         }
 
-        public async Task<StudentDto?> UpdateStudentAsync(StudentDto studentDto)
+        public async Task<StudentDto?> UpdateStudentAsync(int id, StudentDto studentDto)
         {
             var existingStudent = await _studentRepository.GetByIdAsync(studentDto.Id);
             if (existingStudent == null)
             {
-                throw new Exception($"Student with id={studentDto.Id} dosen't exist.");
+                throw new Exception($"Student with id={studentDto.Id} doesn't exist.");
             }
 
             var existStudent = await _studentRepository.GetStudentByPropertiesAsync(studentDto.Attributes.Name,

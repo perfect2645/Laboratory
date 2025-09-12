@@ -14,7 +14,7 @@ namespace React.Study.Services
         Task<StudentDto?> GetStudentByIdAsync(int id);
         Task<StudentDto?> GetStudentByPropertiesAsync(string name, int age, string gender, string? address);
         Task<StudentDto?> CreateStudentAsync(CreateStudentDto studentDto);
-        Task<StudentDto?> UpdateStudentAsync(StudentDto studentDto);
+        Task<StudentDto?> UpdateStudentAsync(int id, StudentDto studentDto);
         Task<StudentDto?> DeleteStudentAsync(int id);
         Task<bool> StudentExistsAsync(int id);
     }
