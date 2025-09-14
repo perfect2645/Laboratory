@@ -21,12 +21,12 @@ namespace React.Study.Repositories
             return await _dbContext.Students.FirstOrDefaultAsync(x =>
             !string.IsNullOrWhiteSpace(name) &&
             !string.IsNullOrWhiteSpace(x.Name) &&
-            x.Name.Equals(name, StringComparison.OrdinalIgnoreCase) &&
+            x.Name.ToLower() == name.ToLower() &&
             x.Age == age &&
             x.Gender == gender &&
             !string.IsNullOrWhiteSpace(address) &&
             !string.IsNullOrWhiteSpace(x.Address) &&
-            x.Address.Equals(address, StringComparison.OrdinalIgnoreCase));
+            x.Address.ToLower() == address.ToLower());
         }
     }
 }

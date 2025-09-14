@@ -1,4 +1,5 @@
 ﻿using Db.React.Study.Entities;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using React.Study.Dto;
 using React.Study.Repositories;
@@ -11,10 +12,12 @@ namespace React.Study.Services
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly IHttpContextAccessor _httpContext;
 
-        public StudentService(IStudentRepository studentRepository)
+        public StudentService(IStudentRepository studentRepository, IHttpContextAccessor httpContext)
         {
             _studentRepository = studentRepository;
+            _httpContext = httpContext;
         }
 
         public async Task<IEnumerable<StudentDto>?> GetAllStudentsAsync()
@@ -37,9 +40,10 @@ namespace React.Study.Services
         public async Task<StudentDto?> GetStudentByIdAsync(int id)
         {
             var student = await _studentRepository.GetByIdAsync(id);
-
             if (student == null)
                 return null;
+
+            _httpContext.HttpContext.Items.TryAdd("student", student);
 
             return new StudentDto
             {
@@ -112,20 +116,10 @@ namespace React.Study.Services
 
         public async Task<StudentDto?> UpdateStudentAsync(int id, StudentDto studentDto)
         {
-            var existingStudent = await _studentRepository.GetByIdAsync(studentDto.Id);
+            var existingStudent = _httpContext.HttpContext.Items["student"] as Student;
             if (existingStudent == null)
             {
-                throw new Exception($"Student with id={studentDto.Id} doesn't exist.");
-            }
-
-            var existStudent = await _studentRepository.GetStudentByPropertiesAsync(studentDto.Attributes.Name,
-                studentDto.Attributes.Age,
-                studentDto.Attributes.Gender,
-                studentDto.Attributes.Address);
-
-            if (existStudent != null)
-            {
-                throw new Exception($"Student with same attributes already exists.");
+                throw new Exception($"Student with id={studentDto.Id} doesn't exist anymore.");
             }
 
             existingStudent.Name = studentDto.Attributes.Name;
@@ -133,18 +127,9 @@ namespace React.Study.Services
             existingStudent.Age = studentDto.Attributes.Age;
             existingStudent.Address = studentDto.Attributes.Address;
 
-            try
-            {
-                await _studentRepository.UpdateAsync(existingStudent);
-                await _studentRepository.SaveChangeAsync();
-                return studentDto;
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!await StudentExistsAsync(studentDto.Id))
-                    return null;
-                throw;
-            }
+            await _studentRepository.UpdateAsync(existingStudent);
+            await _studentRepository.SaveChangeAsync();
+            return studentDto;
         }
 
         public async Task<StudentDto?> DeleteStudentAsync(int id)
