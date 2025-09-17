@@ -12,12 +12,12 @@ namespace React.Study.Services
     public class StudentService : IStudentService
     {
         private readonly IStudentRepository _studentRepository;
-        private readonly IHttpContextAccessor _httpContext;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public StudentService(IStudentRepository studentRepository, IHttpContextAccessor httpContext)
         {
             _studentRepository = studentRepository;
-            _httpContext = httpContext;
+            _httpContextAccessor = httpContext;
         }
 
         public async Task<IEnumerable<StudentDto>?> GetAllStudentsAsync()
@@ -43,7 +43,7 @@ namespace React.Study.Services
             if (student == null)
                 return null;
 
-            _httpContext.HttpContext.Items.TryAdd("student", student);
+            _httpContextAccessor.HttpContext.Items.TryAdd("student", student);
 
             return new StudentDto
             {
@@ -116,7 +116,7 @@ namespace React.Study.Services
 
         public async Task<StudentDto?> UpdateStudentAsync(int id, StudentDto studentDto)
         {
-            var existingStudent = _httpContext.HttpContext.Items["student"] as Student;
+            var existingStudent = _httpContextAccessor.HttpContext.Items["student"] as Student;
             if (existingStudent == null)
             {
                 throw new Exception($"Student with id={studentDto.Id} doesn't exist anymore.");
@@ -134,7 +134,7 @@ namespace React.Study.Services
 
         public async Task<StudentDto?> DeleteStudentAsync(int id)
         {
-            var student = await _studentRepository.GetByIdAsync(id);
+            var student = _httpContextAccessor.HttpContext.Items["studentDto"] as StudentDto;
             if (student == null)
                 return null;
 
@@ -145,10 +145,10 @@ namespace React.Study.Services
                 Id = student.Id,
                 Attributes = new StudentAttributes
                 {
-                    Name = student.Name,
-                    Gender = student.Gender,
-                    Age = student.Age,
-                    Address = student.Address
+                    Name = student.Attributes.Name,
+                    Gender = student.Attributes.Gender,
+                    Age = student.Attributes.Age,
+                    Address = student.Attributes.Address
                 }
             };
         }
