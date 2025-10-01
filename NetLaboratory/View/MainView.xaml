@@ -48,5 +48,9 @@
 
             </local:LeetCodeCtrl>
         </TabItem>
+        <TabItem Header="Widgets">
+            <local:Widgets>
+            </local:Widgets>
+        </TabItem>
     </TabControl>
 </Page>

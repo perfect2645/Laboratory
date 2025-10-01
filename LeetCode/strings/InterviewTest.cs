@@ -21,7 +21,6 @@ namespace LeetCode.strings
         {
             var input = "hello, world, I am happy today";
             var res1 = Test1(input, ' ');
-            var res2 = Test2(input, ',');
 
         }
 
@@ -48,26 +47,7 @@ namespace LeetCode.strings
 
             return result;
         }
-
-
-
-        private string Test2(string input, char separator)
-        {
-            if (string.IsNullOrEmpty(input))
-            {
-                return input;
-            }
-
-            var stack = new Stack<string>();
-            var splits = Spliter(input, ',');
-            foreach (var split in splits)
-            {
-                var reversed = split;
-                stack.Push(reversed);
-            }
-
             
-        }
         private string Test3(string input)
         {
             return null;

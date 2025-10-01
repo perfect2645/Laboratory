@@ -25,6 +25,7 @@
   <ItemGroup>
     <ProjectReference Include="..\LeetCode\LeetCode.csproj" />
     <ProjectReference Include="..\WpfControls\WpfControls.csproj" />
+    <ProjectReference Include="..\WpfWidgets\WpfWidgets.csproj" />
   </ItemGroup>
 
   <ItemGroup>
