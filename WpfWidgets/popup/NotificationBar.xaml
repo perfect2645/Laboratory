@@ -7,6 +7,8 @@
     <Grid>
         <materialDesign:Snackbar x:Name="MySnackbar"
             MessageQueue="{Binding MessageQueue, ElementName=NotificationBarCtrl}"
+                        FontSize="{Binding FontSize,ElementName=NotificationBarCtrl}"
+                        VerticalContentAlignment="Center"
         />
     </Grid>
 </UserControl>

@@ -17,7 +17,7 @@ namespace NetLaboratory.ViewModel
         private string? _snackBarMessage;
 
         [ObservableProperty]
-        SnackbarMessageQueue _messageQueue = new SnackbarMessageQueue();
+        ISnackbarMessageQueue _messageQueue = new SnackbarMessageQueue();
 
         [RelayCommand]
         private void SendMessage()

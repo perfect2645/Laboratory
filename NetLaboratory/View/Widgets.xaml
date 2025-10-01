@@ -16,7 +16,8 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal">
             <popup:NotificationBar VerticalAlignment="Center"
-                                   MessageQueue="{Binding MessageQueue}">
+                                   MessageQueue="{Binding MessageQueue}"
+                                   FontSize="26">
 
             </popup:NotificationBar>
 
