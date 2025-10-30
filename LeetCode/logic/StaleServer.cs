@@ -7,7 +7,6 @@ namespace LeetCode.logic
     {
         public StaleServer() 
         {
-            // 测试用例
             int n = 5;
             List<List<int>> log_data = new List<List<int>>
             {
