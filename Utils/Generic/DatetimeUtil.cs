@@ -64,7 +64,7 @@ namespace Utils.Generic
             }
 
             var darr2 = str2?.Split(spliter);
-            if (darr1 == null || darr1.Length != 3)
+            if (darr2 == null || darr2.Length != 3)
             {
                 return true;
             }

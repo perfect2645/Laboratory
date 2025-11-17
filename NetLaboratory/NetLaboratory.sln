@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControls", "..\WpfContro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "..\Utils\Utils.csproj", "{ECE3E2D0-46A3-42AB-9F8A-685055069922}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebapiStandard", "..\..\..\CSharp\webapi\webapiStandard\WebapiStandard\WebapiStandard.csproj", "{53F2BA59-C523-59BA-1EBE-15F866AA5D6D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebapiStandard", "..\..\..\CSharp\webapiStandard\WebapiStandard\WebapiStandard.csproj", "{53F2BA59-C523-59BA-1EBE-15F866AA5D6D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "servers", "servers", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
