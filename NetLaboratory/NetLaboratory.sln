@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetLaboratory", "NetLaboratory.csproj", "{A4DFA4A4-7ED0-4980-AC88-B7608351D2E0}"
 EndProject
@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfControls", "..\WpfContro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "..\Utils\Utils.csproj", "{ECE3E2D0-46A3-42AB-9F8A-685055069922}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebapiStandard", "..\..\..\CSharp\webapiStandard\WebapiStandard\WebapiStandard.csproj", "{53F2BA59-C523-59BA-1EBE-15F866AA5D6D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebapiStandard", "..\..\webapiStandard\WebapiStandard\WebapiStandard.csproj", "{53F2BA59-C523-59BA-1EBE-15F866AA5D6D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "servers", "servers", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
@@ -19,9 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logging", "..\Logging\Loggi
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WPF", "WPF", "{F3DC0E91-92E9-4077-AC7F-E09292D438A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messaging", "..\..\..\CSharp\messaging\Messaging\Messaging.csproj", "{03A40A2C-CDCC-092F-C481-1E1F111D6C0F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaiouService", "..\SaiouServie\SaiouService.csproj", "{B609054E-916B-4EE1-AEF5-978AA1F575F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Messaging", "..\..\messaging\Messaging\Messaging.csproj", "{03A40A2C-CDCC-092F-C481-1E1F111D6C0F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EF", "EF", "{686BDA1F-50AD-41D9-88FE-EAEDF2682790}"
 EndProject
@@ -42,6 +40,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.Core", "..\Repository.Core\Repository.Core.csproj", "{DFE9FE9A-B1B8-40A9-88C9-1CF8232E1638}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfWidgets", "..\WpfWidgets\WpfWidgets.csproj", "{FACAC19D-8795-46CC-87FE-EC34FE1AAA06}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebapiNet10", "..\..\webapiStandard\WebapiNet10\WebapiNet10.csproj", "{28272E7B-B313-4F63-B346-3E9EEB22125E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -77,10 +77,6 @@ Global
 		{03A40A2C-CDCC-092F-C481-1E1F111D6C0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{03A40A2C-CDCC-092F-C481-1E1F111D6C0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{03A40A2C-CDCC-092F-C481-1E1F111D6C0F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B609054E-916B-4EE1-AEF5-978AA1F575F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B609054E-916B-4EE1-AEF5-978AA1F575F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B609054E-916B-4EE1-AEF5-978AA1F575F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B609054E-916B-4EE1-AEF5-978AA1F575F8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A46CF1A0-C328-450D-8133-975EEFA934D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A46CF1A0-C328-450D-8133-975EEFA934D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A46CF1A0-C328-450D-8133-975EEFA934D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -105,6 +101,10 @@ Global
 		{FACAC19D-8795-46CC-87FE-EC34FE1AAA06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FACAC19D-8795-46CC-87FE-EC34FE1AAA06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FACAC19D-8795-46CC-87FE-EC34FE1AAA06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28272E7B-B313-4F63-B346-3E9EEB22125E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28272E7B-B313-4F63-B346-3E9EEB22125E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28272E7B-B313-4F63-B346-3E9EEB22125E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28272E7B-B313-4F63-B346-3E9EEB22125E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,13 +112,13 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{2F3707FD-C511-4CCA-9502-E14BDC7BC277} = {F3DC0E91-92E9-4077-AC7F-E09292D438A9}
 		{53F2BA59-C523-59BA-1EBE-15F866AA5D6D} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
-		{B609054E-916B-4EE1-AEF5-978AA1F575F8} = {5BBA4DFC-CFBF-4490-8201-F71CC3D0DC0B}
 		{A46CF1A0-C328-450D-8133-975EEFA934D1} = {686BDA1F-50AD-41D9-88FE-EAEDF2682790}
 		{3A9C5A76-30FD-48C1-B766-0D8741CC3E7C} = {5BBA4DFC-CFBF-4490-8201-F71CC3D0DC0B}
 		{8195C527-7D1C-4D5F-B44D-22448F788E82} = {3C17E76E-8326-4389-A86B-48D0C2532FAE}
 		{49B73630-97ED-43CE-AC23-5E21CDC6A182} = {41FC75EE-328D-40FC-A025-C11EFE656175}
 		{DFE9FE9A-B1B8-40A9-88C9-1CF8232E1638} = {686BDA1F-50AD-41D9-88FE-EAEDF2682790}
 		{FACAC19D-8795-46CC-87FE-EC34FE1AAA06} = {F3DC0E91-92E9-4077-AC7F-E09292D438A9}
+		{28272E7B-B313-4F63-B346-3E9EEB22125E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9826177B-ACD0-4532-9B98-9DA1D5883145}
