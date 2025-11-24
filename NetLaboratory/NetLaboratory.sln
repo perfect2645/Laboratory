@@ -41,8 +41,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository.Core", "..\Repos
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfWidgets", "..\WpfWidgets\WpfWidgets.csproj", "{FACAC19D-8795-46CC-87FE-EC34FE1AAA06}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebapiNet10", "..\..\webapiStandard\WebapiNet10\WebapiNet10.csproj", "{28272E7B-B313-4F63-B346-3E9EEB22125E}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -101,10 +99,6 @@ Global
 		{FACAC19D-8795-46CC-87FE-EC34FE1AAA06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FACAC19D-8795-46CC-87FE-EC34FE1AAA06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FACAC19D-8795-46CC-87FE-EC34FE1AAA06}.Release|Any CPU.Build.0 = Release|Any CPU
-		{28272E7B-B313-4F63-B346-3E9EEB22125E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{28272E7B-B313-4F63-B346-3E9EEB22125E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{28272E7B-B313-4F63-B346-3E9EEB22125E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{28272E7B-B313-4F63-B346-3E9EEB22125E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -118,7 +112,6 @@ Global
 		{49B73630-97ED-43CE-AC23-5E21CDC6A182} = {41FC75EE-328D-40FC-A025-C11EFE656175}
 		{DFE9FE9A-B1B8-40A9-88C9-1CF8232E1638} = {686BDA1F-50AD-41D9-88FE-EAEDF2682790}
 		{FACAC19D-8795-46CC-87FE-EC34FE1AAA06} = {F3DC0E91-92E9-4077-AC7F-E09292D438A9}
-		{28272E7B-B313-4F63-B346-3E9EEB22125E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9826177B-ACD0-4532-9B98-9DA1D5883145}
