@@ -4,6 +4,20 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <PackageId>net.utils.perfect2645</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Fawei</Authors>
+    <Company>Personal</Company>
+    <Product>net.utils</Product>
+    <Description>.net utils library.</Description>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Copyright>Copyright © 2026 Fawei</Copyright>
+    <PackageProjectUrl>https://github.com/perfect2645/Laboratory/tree/main/Utils</PackageProjectUrl>
+  	<RepositoryUrl>https://github.com/perfect2645/Laboratory/tree/main/Utils</RepositoryUrl>
+    <RepositoryType>Git</RepositoryType>
+    <PackageTags>.net tools library</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>
