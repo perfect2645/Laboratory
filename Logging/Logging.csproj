@@ -22,10 +22,14 @@
 
   <ItemGroup>
     <None Remove="log4net.config" />
+    <None Remove="README.md" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="README.md" Pack="true" PackagePath="\">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
