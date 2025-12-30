@@ -21,6 +21,7 @@ namespace Logging
 
         private static void InitLogger()
         {
+            GlobalContext.Properties["logDir"] = GlobalContext.Properties["logDir"] ?? "logs";
             XmlConfigurator.Configure();
             _logger = LogManager.GetLogger(GetLoggerType(typeof(Log4Logger)));
         }
