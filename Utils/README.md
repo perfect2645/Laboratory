@@ -2,6 +2,11 @@
 
 ## AspNetCore
 
+### Api Versioning
+[ApiVersioning](https://github.com/dotnet/aspnet-api-versioning)
+### Swashbuckle.AspNetCore.SwaggerGen
+
+
 ### Filters
 
 #### GlobalExceptionFilter
