@@ -6,7 +6,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
 
-namespace Utils.Aspnet.Configurations.Swagger
+namespace NetUtils.Aspnet.Configurations.Swagger
 {
     public class ApiVersionOptions : IConfigureOptions<SwaggerGenOptions>
     {

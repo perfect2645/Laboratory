@@ -1,4 +1,4 @@
-﻿namespace Utils.Aspnet.Configurations.Swagger
+﻿namespace NetUtils.Aspnet.Configurations.Swagger
 {
     public record ApiInfo
     {

@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System.Net;
 
-namespace Utils.Aspnet.Filters
+namespace NetUtils.Aspnet.Filters
 {
     public class GlobalExceptionFilter : IAsyncExceptionFilter
     {

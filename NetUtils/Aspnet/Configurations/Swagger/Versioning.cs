@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Utils.Aspnet.Configurations.Swagger
+namespace NetUtils.Aspnet.Configurations.Swagger
 {
     public static class Versioning
     {

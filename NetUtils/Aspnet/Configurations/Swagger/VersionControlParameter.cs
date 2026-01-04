@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Utils.Aspnet.Configurations.Swagger
+namespace NetUtils.Aspnet.Configurations.Swagger
 {
     public class VersionControlParameter : IOperationFilter
     {

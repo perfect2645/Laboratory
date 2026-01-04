@@ -1,16 +1,13 @@
-﻿# Fawei Global Utilities
+﻿# Provide utilities for C#
 
-## AspNetCore
+## Configurations
 
-### Api Versioning
-[ApiVersioning](https://github.com/dotnet/aspnet-api-versioning)
-### Swashbuckle.AspNetCore.SwaggerGen
+### AppConfig
+- Supprot app level configuration. Similar as appsettings.json in .net core
 
+### IOCConfig
+- Support IOC / DI configuration by assembly scanning
+- Support attribute based registration
 
-### Filters
-
-#### GlobalExceptionFilter
-
-The `GlobalExceptionFilter` is an ASP.NET Core filter that handles exceptions globally across the application. 
-It captures unhandled exceptions thrown during the execution of controller actions and processes them in a centralized manner.
-
+### Tasking
+- Support safe fire and forget task execution with exception handling

@@ -3,10 +3,10 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
-using Utils.Aspnet.Filters;
+using NetUtils.Aspnet.Filters;
 using Utils.Ioc;
 
-namespace Utils.Aspnet.Configurations
+namespace NetUtils.Aspnet.Configurations
 {
     public static class ServicesRegister
     {
