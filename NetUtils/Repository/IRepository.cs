@@ -5,7 +5,7 @@ namespace NetUtils.Repository
     public interface IRepository<TEntity, TId> where TEntity : class
     {
         Task<bool> ExistAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken ct = default);
-        Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate, bool asNoTracking = false, CancellationToken ct = default);
+        Task<TEntity?> GetAsync(Expression<Func<TEntity, bool>> predicate, bool asNoTracking = true, CancellationToken ct = default);
         ValueTask<TEntity?> GetByIdAsync(TId id, CancellationToken ct = default);
         Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>>? predicate = null, CancellationToken ct = default);
         ValueTask<TEntity> AddAsync(TEntity entity, CancellationToken ct = default);
