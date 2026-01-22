@@ -16,3 +16,10 @@
 
 ### HashHelper.cs
 - Support hash algorithms: MD5, SHA256
+
+## Enumerable
+
+### DictionaryExt.cs
+- Support AddOrUpdate for Dictionary
+- Support HasItem for Dictionary
+- Support ToJson for Dictionary
