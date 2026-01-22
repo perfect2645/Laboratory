@@ -11,7 +11,6 @@ namespace Utils.Lambda
     {
         public static Expression<Func<T, bool>> And<T>(this Expression<Func<T, bool>> expr1, Expression<Func<T, bool>> expr2)
         {
-            // wrong code: Expression.Lambda<Func<T, bool>>(Expression.AndAlso(expr1.Body, expr2.Body), expr1.Parameters);
             if (expr1 == null)
             {
                 return expr2;

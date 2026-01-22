@@ -4,27 +4,30 @@ namespace Utils.Enumerable
 {
     public static class EnumerableExt
     {
-        public static bool HasItem<T>(this IEnumerable<T>? list)
+        extension<T>(IEnumerable<T>? list)
         {
-            if (list == null)
+            public bool HasItem()
             {
-                return false;
+                if (list == null)
+                {
+                    return false;
+                }
+
+                return list.Count() > 0;
             }
 
-            return list.Count() > 0;
-        }
-
-        public static string NotNullString<T>(this IEnumerable<T>? list, string separater = ",")
-        {
-            if (!list.HasItem())
+            public string NotNullString(string separater = ",")
             {
-                return string.Empty;
+                if (!list.HasItem())
+                {
+                    return string.Empty;
+                }
+
+                var sb = new StringBuilder();
+                sb.AppendJoin(separater, list!.ToArray());
+
+                return sb.ToString();
             }
-
-            var sb = new StringBuilder();
-            sb.AppendJoin(separater, list!.ToArray());
-
-            return sb.ToString();
         }
     }
 }

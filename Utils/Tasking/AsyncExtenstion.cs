@@ -1,63 +1,68 @@
 ﻿using Logging;
-using System.Threading.Tasks;
 
 namespace Utils.Tasking
 {
     public static class AsyncExtenstion
     {
 
-        public static async Task<TResult> TimeoutAsync<TResult>(this Task<TResult> task, TimeSpan timeout, CancellationTokenSource cts)
+        extension<TResult>(Task<TResult> task) where TResult : notnull
         {
-            try
+            public async Task<TResult> TimeoutAsync(TimeSpan timeout, CancellationTokenSource cts)
             {
-                return await task.WaitAsync(timeout);
+                try
+                {
+                    return await task.WaitAsync(timeout);
+                }
+                catch (TimeoutException)
+                {
+                    Log4Logger.Logger.Warn($"The operation has timed out after {timeout.TotalMilliseconds} milliseconds.");
+                    cts.Cancel();
+                    return await task;
+                }
             }
-            catch (TimeoutException)
+
+            public async void SafeFireAndForget(Action<TResult>? onCompleted = null,
+                Action<Exception>? onError = null)
             {
-                Log4Logger.Logger.Warn($"The operation has timed out after {timeout.TotalMilliseconds} milliseconds.");
-                cts.Cancel();
-                return await task;
+                try
+                {
+                    var result = await task;
+                    onCompleted?.Invoke(result);
+                }
+                catch (Exception ex)
+                {
+                    onError?.Invoke(ex);
+                }
             }
         }
 
-        public static async Task TimeoutAsync(this Task task, TimeSpan timeout, CancellationTokenSource cts)
+        extension(Task task)
         {
-            try
+            public async Task TimeoutAsync(TimeSpan timeout, CancellationTokenSource cts)
             {
-                await task.WaitAsync(timeout);
+                try
+                {
+                    await task.WaitAsync(timeout);
+                }
+                catch (TimeoutException)
+                {
+                    Log4Logger.Logger.Warn($"The operation has timed out after {timeout.TotalMilliseconds} milliseconds.");
+                    cts.Cancel();
+                }
             }
-            catch (TimeoutException)
-            {
-                Log4Logger.Logger.Warn($"The operation has timed out after {timeout.TotalMilliseconds} milliseconds.");
-                cts.Cancel();
-            }
-        }
 
-        public static async void SafeFireAndForget(this Task task, Action? onCompleted = null,
-            Action<Exception>? onError = null)
-        {
-            try
+            public async void SafeFireAndForget(Action? onCompleted = null,
+                Action<Exception>? onError = null)
             {
-                await task;
-                onCompleted?.Invoke();
-            }
-            catch (Exception ex)
-            {
-                onError?.Invoke(ex);
-            }
-        }
-
-        public static async void SafeFireAndForget<T>(this Task<T> task, Action<T>? onCompleted = null,
-            Action<Exception>? onError = null) where T : notnull
-        {
-            try
-            {
-                var result = await task;
-                onCompleted?.Invoke(result);
-            }
-            catch (Exception ex)
-            {
-                onError?.Invoke(ex);
+                try
+                {
+                    await task;
+                    onCompleted?.Invoke();
+                }
+                catch (Exception ex)
+                {
+                    onError?.Invoke(ex);
+                }
             }
         }
     }

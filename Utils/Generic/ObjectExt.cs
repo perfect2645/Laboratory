@@ -2,44 +2,47 @@
 {
     public static class ObjectExt
     {
-        public static int ToInt(this object? obj)
+        extension(object? obj)
         {
-            if (obj == null)
+            public int ToInt()
             {
-                return 0;
+                if (obj == null)
+                {
+                    return 0;
+                }
+
+                var intResult = int.TryParse(obj.ToString(), out int result);
+                if (!intResult)
+                {
+                    var doubleResult = double.TryParse(obj.ToString(), out double doubleTry);
+                    if (doubleResult)
+                    {
+                        return Convert.ToInt32(doubleTry);
+                    }
+                }
+                return Convert.ToInt32(obj);
             }
 
-            var intResult = int.TryParse(obj.ToString(), out int result);
-            if (!intResult)
+            public double ToDouble()
             {
-                var doubleResult = double.TryParse(obj.ToString(), out double doubleTry);
+                if (obj == null)
+                {
+                    return 0;
+                }
+
+                var doubleResult = double.TryParse(obj.ToString(), out double result);
                 if (doubleResult)
                 {
-                    return Convert.ToInt32(doubleTry);
+                    return result;
                 }
+                return Convert.ToDouble(obj);
             }
-            return Convert.ToInt32(obj);
-        }
 
-        public static double ToDouble(this object? obj)
-        {
-            if (obj == null)
+            public string NotNullString()
             {
-                return 0;
+                var strSource = obj?.ToString();
+                return strSource ?? string.Empty;
             }
-
-            var doubleResult = double.TryParse(obj.ToString(), out double result);
-            if (doubleResult)
-            {
-                return result;
-            }
-            return Convert.ToDouble(obj);
-        }
-
-        public static string NotNullString(this object? source)
-        {
-            var strSource = source?.ToString();
-            return strSource ?? string.Empty;
         }
     }
 }
