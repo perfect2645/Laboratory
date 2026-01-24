@@ -2,8 +2,8 @@
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
 using NetUtils.Aspnet.Filters;
+using System.Reflection;
 using Utils.Ioc;
 
 namespace NetUtils.Aspnet.Configurations
@@ -30,8 +30,6 @@ namespace NetUtils.Aspnet.Configurations
             {
                 containerBuilder.RegisterModule(new AutoRegisterModule(
                     assemblies
-                //Assembly.GetExecutingAssembly(),
-                //typeof(IShirtRepository).Assembly
                 ));
             });
         }
