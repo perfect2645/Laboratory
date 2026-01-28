@@ -12,7 +12,6 @@ namespace NetUtils.Aspnet.Configurations
     {
         public static void RegisterCommonServices(this WebApplicationBuilder builder)
         {
-            //builder.UseAutofac();
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddControllers(options =>
             {

@@ -4,10 +4,16 @@ namespace NetUtils.Aspnet.Generic
 {
     public static class HttpContextExtension
     {
-        extension(HttpContext httpContext)
+        extension(IHttpContextAccessor httpContextAccessor)
         {
             public bool TryGetValue<T>(string key, out T? value) where T : class
             {
+                var httpContext = httpContextAccessor.HttpContext;
+                if (httpContext == null)
+                {
+                    value = null;
+                    return false;
+                }
                 if (string.IsNullOrEmpty(key))
                 {
                     value = null;
@@ -27,7 +33,7 @@ namespace NetUtils.Aspnet.Generic
 
             public string? GetString(string key)
             {
-                TryGetValue(httpContext, key, out string? value);
+                httpContextAccessor.TryGetValue(key, out string? value);
                 return value;
             }
         }
