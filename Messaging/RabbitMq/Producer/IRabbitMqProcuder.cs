@@ -1,7 +1,7 @@
 ﻿namespace Messaging.RabbitMq.Producer
 {
-    public interface IRabbitMqProducer<Payload> where Payload : class
+    public interface IRabbitMqProducer<TPayload>
     {
-        Task ProduceAsync(Payload messagePayload, CancellationToken ct = default);
+        Task ProduceAsync(TPayload messagePayload, CancellationToken ct = default);
     }
 }
