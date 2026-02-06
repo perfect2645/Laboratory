@@ -6,6 +6,7 @@ namespace Messaging.RabbitMq.Connections
     {
         Task<IConnection> BuildConnectionAsync();
         ConnectionFactory? ConnectionFactory { get; }
+        RabbitMqSettings RabbitMqSettings { get; }
         ValueTask<IConnection> GetConnectionAsync();
     }
 }
