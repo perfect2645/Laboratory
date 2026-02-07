@@ -95,6 +95,7 @@ namespace service.file.Configurations.Services
 - Swagger configuration
 - CORS configuration
 - WebApplication configuration
+- Optimized Json serializer configuration
 
 ### Filters
 
