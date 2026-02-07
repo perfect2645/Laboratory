@@ -1,6 +1,7 @@
 ﻿# .net10 webapi utils
 
 ## Program.cs will be like this
+
 ```CSharp
 using Logging;
 using NetUtils.Aspnet.Configurations;
@@ -94,6 +95,18 @@ namespace service.file.Configurations.Services
 - Api Versioning configuration
 - Swagger configuration
 - CORS configuration
+
+```json
+// appsettings.json
+  "Cors": {
+    "PolicyName": "SignalRReactCors",
+    "AllowedOrigins": [
+      "https://localhost:3000",
+      "http://localhost:5173" // vite dev
+    ]
+  },
+```
+
 - WebApplication configuration
 - Optimized Json serializer configuration
 
@@ -107,6 +120,7 @@ It captures unhandled exceptions thrown during the execution of controller actio
 #### FileUploadOperationFilter
 
 Supports file upload in Swagger UI.
+
 ```
 // program.cs
 builder.AddSwaggerGenExt($"{typeof(Program).Assembly.GetName().Name}.xml", swaggerGenOptions =>

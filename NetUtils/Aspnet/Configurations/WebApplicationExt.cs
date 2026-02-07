@@ -13,6 +13,7 @@ namespace NetUtils.Aspnet.Configurations
         {
             public void ConfigApp()
             {
+                app.UseCorsExt();
                 // Configure the HTTP request pipeline.
                 if (app.Environment.IsDevelopment())
                 {
