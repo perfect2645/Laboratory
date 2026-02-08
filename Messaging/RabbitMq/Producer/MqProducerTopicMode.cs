@@ -5,12 +5,12 @@ using Messaging.RabbitMq.Producer;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 using System.Text;
-using System.Text.Json;
+using Utils.Json;
 using Utils.Tasking;
 
 namespace service.messaging.Clients.Producer
 {
-    public abstract class MqProducerTopicMode : IRabbitMqTopicProducer<ITopicPayload>
+    public abstract class MqProducerTopicMode<TPayload> : IRabbitMqTopicProducer<TPayload> where TPayload : ITopicPayload
     {
         private readonly IRabbitMqConnectionFactory _connectionFactory;
         private IChannel? _channel;
@@ -46,7 +46,7 @@ namespace service.messaging.Clients.Producer
 
         #endregion Init
 
-        public virtual async Task ProduceAsync(ITopicPayload messagePayload, CancellationToken ct = default)
+        public virtual async Task ProduceAsync(TPayload messagePayload, CancellationToken ct = default)
         {
             ArgumentNullException.ThrowIfNull(messagePayload);
 
@@ -59,7 +59,7 @@ namespace service.messaging.Clients.Producer
 
             try
             {
-                var jsonMsg = JsonSerializer.Serialize(messagePayload);
+                var jsonMsg = JsonSerializerUtil.SerializeCamelCase(messagePayload);
                 byte[] msgBody = Encoding.UTF8.GetBytes(jsonMsg);
                 await _channel!.BasicPublishAsync(exchange: _connectionFactory.RabbitMqSettings.ExchangeName,
                     routingKey: messagePayload.Topic,
