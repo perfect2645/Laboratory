@@ -31,7 +31,7 @@ namespace NetUtils.Aspnet.Configurations
                 app.UseHttpsRedirection();
 
                 app.UseAuthorization();
-
+                app.UseRouting();
                 app.MapControllers();
 
                 app.UseErrorEndpoint();
