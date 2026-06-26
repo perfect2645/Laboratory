@@ -1,21 +1,21 @@
-﻿using Microsoft.Net.Http.Headers;
+﻿using Messaging.Http.Policies;
+using Microsoft.Net.Http.Headers;
 
 namespace Messaging.Http.Client
 {
-    public class HttpApiClientOptions
+    public record HttpApiClientOptions : IHttpApiClientOptions
     {
-        public Uri? BaseAddress { get; set; }
-
+        public required string ApiKey { get; set; }
+        public required Uri BaseAddress { get; set; }
+        public string? Resource { get; set; }
         public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(10);
 
         public Dictionary<string, string> DefaultHeaders { get; set; } = new()
         {
             { HeaderNames.Accept, "application/json" },
-            { HeaderNames.UserAgent, "HttpApiClient/1.0" }
+            { HeaderNames.UserAgent, "HttpApiClient" }
         };
 
-        public bool EnableRetry { get; set; } = true;
-        public int MaxRetryCount { get; set; } = 3;
-        public TimeSpan RetryDelay { get; set; } = TimeSpan.FromSeconds(1);
+        public IHttpClientPolicy? Policy { get; set; }
     }
 }

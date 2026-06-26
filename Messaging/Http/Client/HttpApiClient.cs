@@ -8,22 +8,12 @@ using Utils.Json;
 
 namespace Messaging.Http.Client
 {
-    public class HttpApiClient : IHttpApiClient
+    public class HttpApiClient(HttpClient httpClient) : IHttpApiClient
     {
-        private readonly HttpClient _httpClient;
-
-
-        public HttpApiClient(HttpClient httpClient)
-        {
-            _httpClient = httpClient;
-        }
-
         #region Header
 
         private void AddHeaders(HttpRequestMessage request, IHttpApiContent content)
         {
-            if (content == null)
-                return;
             if (!content.Headers.HasItem())
                 return;
 
@@ -31,9 +21,22 @@ namespace Messaging.Http.Client
             {
                 foreach (var (key, value) in content.Headers)
                 {
-                    if (!request.Headers.Contains(key))
+                    if (string.IsNullOrWhiteSpace(key))
                     {
-                        request.Headers.TryAddWithoutValidation(key, value);
+                        Log4Logger.Logger.Warn($"Header key is empty, skip this header, value: {value}");
+                        continue;
+                    }
+
+                    if (string.Equals(key, "Content-Type", StringComparison.OrdinalIgnoreCase))
+                    {
+                        request.Content?.Headers.TryAddWithoutValidation(key, value);
+                        continue;
+                    }
+
+                    bool addSuccess = request.Headers.TryAddWithoutValidation(key, value);
+                    if (!addSuccess)
+                    {
+                        Log4Logger.Logger.Debug($"Header [{key}] already exists, skip add, value: {value}");
                     }
                 }
             }
@@ -46,8 +49,6 @@ namespace Messaging.Http.Client
 
         private void AddHeaders(HttpClient client, IHttpApiContent content)
         {
-            if (content == null)
-                return;
             if (!content.Headers.HasItem())
                 return;
 
@@ -55,9 +56,22 @@ namespace Messaging.Http.Client
             {
                 foreach (var (key, value) in content.Headers)
                 {
-                    if (!client.DefaultRequestHeaders.Contains(key))
+                    if (string.IsNullOrWhiteSpace(key))
                     {
-                        client.DefaultRequestHeaders.TryAddWithoutValidation(key, value);
+                        Log4Logger.Logger.Warn($"Header key is empty, skip this header, value: {value}");
+                        continue;
+                    }
+
+                    if (string.Equals(key, "Content-Type", StringComparison.OrdinalIgnoreCase))
+                    {
+                        client.DefaultRequestHeaders?.TryAddWithoutValidation(key, value);
+                        continue;
+                    }
+
+                    bool addSuccess = client.DefaultRequestHeaders!.TryAddWithoutValidation(key, value);
+                    if (!addSuccess)
+                    {
+                        Log4Logger.Logger.Debug($"Header [{key}] already exists, skip add, value: {value}");
                     }
                 }
             }
@@ -166,8 +180,8 @@ namespace Messaging.Http.Client
 
             try
             {
-                AddHeaders(_httpClient, content);
-                var response = await _httpClient.PostAsJsonAsync(content.RequestUrl, content.Content, JsonEncoder.JsonOption, cts);
+                AddHeaders(httpClient, content);
+                var response = await httpClient.PostAsJsonAsync(content.RequestUrl, content.Content, JsonEncoder.JsonOption, cts);
                 response.EnsureSuccessStatusCode();
                 return await response.Content.ReadAsStringAsync(cts);
             }
@@ -186,7 +200,7 @@ namespace Messaging.Http.Client
         {
             try
             {
-                using var response = await _httpClient.SendAsync(
+                using var response = await httpClient.SendAsync(
                     request,
                     HttpCompletionOption.ResponseHeadersRead,
                     cancellationToken);
@@ -228,7 +242,6 @@ namespace Messaging.Http.Client
         }
 
         #endregion Methods
-
 
         #region Log
 

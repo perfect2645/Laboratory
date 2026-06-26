@@ -4,6 +4,7 @@
     {
         Success = 0,
         Exception = 1,
+        Configuration = 100,
         ClientRegister = 1001,
         AddRequestHeader = 4001,
         ResponseDeserialize = 4002,
