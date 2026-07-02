@@ -26,7 +26,7 @@ public static class HttpConfigHelper
                 {
                     ApiKey = config.ApiKey,
                     Resource = config.Resource,
-                    BaseAddress = new Uri(config.BaseUrl),
+                    BaseAddress = config.GetFullBaseAddress(),
                     Timeout = TimeSpan.FromSeconds(config.Timeout),
                     DefaultHeaders = runtimeHeaders,
                     Policy = config.RetryPolicy

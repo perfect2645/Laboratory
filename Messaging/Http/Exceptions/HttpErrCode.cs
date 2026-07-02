@@ -12,6 +12,7 @@
         RequestInvalidContentType = 4004,
         BuildRequestContent = 4005,
         RequestContentArgument = 4006,
+        BadRequestUrl = 4007,
         PostFailed = 4010,
         DataEmpty = 5001,
 

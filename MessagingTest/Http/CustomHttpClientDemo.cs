@@ -43,7 +43,7 @@ public class CustomHttpClientDemo
             serviceCollection.AddHttpApiClient(ClientKey, () =>
             {
                 var httpSettings = HttpConfigHelper.ReadFromConfig("ApiSettings:Http", "shirts");
-                httpSettings ??= new HttpApiClientConfig();
+                httpSettings ??= new HttpApiClientConfig { BaseUrl = "https://localhost:7029/api/" };
                 return httpSettings.ToApiClientOptions();
             })
             .AddPolicyHandler<CustomHttpRequestRetryHandler>(serviceProvider =>

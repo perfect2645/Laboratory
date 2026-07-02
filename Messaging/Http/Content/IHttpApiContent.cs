@@ -1,14 +1,14 @@
 ﻿using System.Net.Http.Headers;
-using System.Net.Http.Json;
 
 namespace Messaging.Http.Content
 {
     public interface IHttpApiContent
     {
-        public Dictionary<string, string> Headers { get; }
-        public Dictionary<string, object> Content { get; }
-        public MediaTypeHeaderValue ContentType { get; set; }
-        public string RequestUrl { get; set; }
+        IReadOnlyDictionary<string, string> Headers { get; }
+        IReadOnlyDictionary<string, string> ContentHeaders { get; }
+        IReadOnlyDictionary<string, object> Content { get; }
+        MediaTypeHeaderValue ContentType { get; set; }
+        string RequestUrl { get; }
         StringContent GetJsonContent();
         StringContent GetStringContent();
     }

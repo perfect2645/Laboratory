@@ -7,76 +7,101 @@ using Utils.Json;
 
 namespace Messaging.Http.Content
 {
-    public class HttpStringContent : IHttpApiContent
+    public class HttpStringContent(string url) : IHttpApiContent
     {
         #region Properties
+        
+        private readonly Encoding _utf8 = Encoding.UTF8;
 
-        public Dictionary<string, string> Headers { get; private set; }
-        public Dictionary<string, object> Content { get; private set; }
+        private readonly Dictionary<string, string> _headers = new();
+        private readonly Dictionary<string, string> _contentHeaders = new();
+        private readonly Dictionary<string, object> _bodyPairs = new();
+
+        public IReadOnlyDictionary<string, string> Headers => _headers;
+        public IReadOnlyDictionary<string, string> ContentHeaders => _contentHeaders;
+        public IReadOnlyDictionary<string, object> Content => _bodyPairs;
         public MediaTypeHeaderValue ContentType { get; set; } = MediaTypeHeaderValue.Parse("application/json");
-        public string RequestUrl { get; set; }
+        public string RequestUrl { get; } = url;
 
         #endregion Properties
-
-        public HttpStringContent(string url)
-        {
-            RequestUrl = url;
-            Content = new Dictionary<string, object>();
-            Headers = new Dictionary<string, string>();
-        }
 
         #region Header
 
         public void AddHeader(string key, string value)
         {
-            Headers.AddOrUpdate(key, value);
+            ArgumentException.ThrowIfNullOrWhiteSpace(key);
+            _headers.AddOrUpdate(key, value);
         }
 
         public void AddHeader(Dictionary<string, object> source, string key)
         {
-            Headers.AddOrUpdate(key, source[key].NotNullString());
+            if (source.TryGetValue(key, out var val))
+                AddHeader(key, val.NotNullString());
         }
 
         public void AddHeaders(Dictionary<string, string> pairs)
         {
-            Headers.AddOrUpdate(pairs);
+            if (pairs.HasItem())
+                _headers.AddOrUpdate(pairs);
         }
 
         #endregion Header
+        
+        #region Content Header
+
+        public void AddContentHeader(string key, string value)
+        {
+            ArgumentException.ThrowIfNullOrWhiteSpace(key);
+            _contentHeaders.AddOrUpdate(key, value);
+        }
+
+        public void AddContentHeader(Dictionary<string, object> source, string key)
+        {
+            if (source.TryGetValue(key, out var val))
+                AddContentHeader(key, val.NotNullString());
+        }
+
+        public void AddContentHeaders(Dictionary<string, string> pairs)
+        {
+            if (pairs.HasItem())
+                _contentHeaders.AddOrUpdate(pairs);
+        }
+
+        #endregion Content Header
 
         #region Content
 
         public void AddContent(string key, object value)
         {
-            Content.AddOrUpdate(key, value);
+            ArgumentException.ThrowIfNullOrWhiteSpace(key);
+            _bodyPairs.AddOrUpdate(key, value);
         }
 
         public void AddContent(Dictionary<string, object> source, string key)
         {
-            Content.AddOrUpdate(key, source[key]);
+            if (source.TryGetValue(key, out var val))
+                AddContent(key, val);
         }
+
         public void AddContents(Dictionary<string, object> pairs)
         {
-            Content.AddOrUpdate(pairs);
+            if (pairs.HasItem())
+                _bodyPairs.AddOrUpdate(pairs);
         }
 
         public virtual StringContent GetJsonContent()
         {
-            var jsonContent = JsonSerializer.Serialize(Content, JsonEncoder.JsonOption);
-            var stringContent = new StringContent(jsonContent, Encoding.UTF8, ContentType);
-            return stringContent;
+            var json = JsonSerializer.Serialize(_bodyPairs, JsonEncoder.JsonOption);
+            return new StringContent(json, _utf8, ContentType);
         }
 
         public virtual StringContent GetStringContent()
         {
-            var sb = new StringBuilder();
-            foreach(var item in Content)
-            {
-                sb.Append($"{item.Key}={item.Value}&");
-            }
-            var stringContent = sb.ToString().TrimEnd('&');
+            var keyValueList = _bodyPairs
+                .Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value.ToString() ?? string.Empty)}");
 
-            return new StringContent(stringContent, Encoding.UTF8, ContentType);
+            var formData = string.Join("&", keyValueList);
+            return new StringContent(formData, _utf8, ContentType);
         }
 
         public virtual StringContent GetArrayContent()
@@ -89,15 +114,9 @@ namespace Messaging.Http.Content
             var stringContent = sb.ToString().TrimEnd(',');
             stringContent = $"[{stringContent}]";
 
-            return new StringContent(stringContent, Encoding.UTF8, ContentType);
+            return new StringContent(stringContent, _utf8, ContentType);
         }
-
-        private string ToJson(object content)
-        {
-            var json = JsonSerializer.Serialize(content, JsonEncoder.JsonOption);
-            return json;
-        }
-
+        
         #endregion Content
     }
 }

@@ -1,5 +1,6 @@
 using Logging;
 using Messaging.Http.Client;
+using Messaging.Http.Configurations;
 using Messaging.Http.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
@@ -86,6 +87,31 @@ public static class ClientRegistrationExt
                 .AddPolicyHandler((serviceProvider, request) => BuildRetryPolicy(services, clientIdentifier, serviceProvider));
 
             return clientBuilder;
+        }
+
+        public IHttpClientBuilder AddConfiguratedHttpClient<TApiClient>(string apiKey)
+            where TApiClient : HttpApiClient
+        {
+            var httpSettings = HttpConfigHelper.ReadFromConfig(HttpClientConstants.ApiSettingsHttp, apiKey);
+            if (httpSettings is null)
+            {
+                throw new HttpException($"Read http client config [{apiKey}] failed. Please check your appsettings.json", HttpStatus.Configuration);
+            }
+            
+            var builder = services.AddHttpApiClient(apiKey, httpSettings.ToApiClientOptions)
+            .AddPolicyHandler((serviceProvider, _) => BuildRetryPolicy(services, apiKey, serviceProvider));
+            
+            services.AddKeyedTransient<TApiClient>(apiKey, (serviceProvider, _) =>
+            {
+                var httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient(apiKey);
+                var clientInstance = Activator.CreateInstance(typeof(TApiClient), httpClient) as TApiClient
+                       ?? throw new HttpException(
+                           $"Failed to construct {typeof(TApiClient).Name}, must accept HttpClient as constructor parameter",
+                           HttpStatus.ClientRegister);
+                return clientInstance;
+            });
+
+            return builder;
         }
         
         private IAsyncPolicy<HttpResponseMessage> BuildRetryPolicy(string clientIdentifier, IServiceProvider serviceProvider)

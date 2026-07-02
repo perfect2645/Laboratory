@@ -1,9 +1,7 @@
-using Messaging.Http.Client;
 using Messaging.Http.Configurations;
 using Messaging.Http.Exceptions;
 using Messaging.Http.Ioc;
 using Messaging.Http.Policies;
-using Microsoft.Extensions.Configuration;
 using Utils.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Utils.Tasking;
@@ -63,7 +61,7 @@ public class HttpApiClientDemo
             serviceCollection.AddHttpClientWithRetryPolicy("demoHttpClientFromConfig", () =>
             {
                 var httpSettings = HttpConfigHelper.ReadFromConfig("ApiSettings:Http", "shirts");
-                httpSettings = httpSettings ?? new HttpApiClientConfig();
+                httpSettings ??= new HttpApiClientConfig { BaseUrl = "https://localhost:7029/api/" };
                 return httpSettings.ToApiClientOptions();
             });
         });
