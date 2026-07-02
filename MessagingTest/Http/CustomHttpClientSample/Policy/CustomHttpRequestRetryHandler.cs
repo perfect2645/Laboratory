@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Net;
 using Messaging.Http.Client;
+using Messaging.Http.Exceptions;
 using Messaging.Http.Policies;
 
 namespace MessagingTest.Http.CustomHttpClientSample.Policy;
@@ -44,7 +45,8 @@ public class CustomHttpRequestRetryHandler : DelegatingHandler
             }
             catch (HttpRequestException ex)
             {
-                FireRetryStatusAction(request, attempt, ex);
+                var exCeption = new HttpException(ex);
+                FireRetryStatusAction(request, attempt, exCeption);
                 // throw after last try
                 if (attempt == maxRetries)
                     throw;
@@ -57,7 +59,7 @@ public class CustomHttpRequestRetryHandler : DelegatingHandler
         return null;
     }
 
-    private void FireRetryStatusAction(HttpRequestMessage request, int attempt, HttpRequestException ex)
+    private void FireRetryStatusAction(HttpRequestMessage request, int attempt, HttpException ex)
     {
         if (RetryStatusAction == null)
         {
@@ -68,7 +70,7 @@ public class CustomHttpRequestRetryHandler : DelegatingHandler
         {
             Attempt = attempt,
             RequestUrl = request.RequestUri!.ToString(),
-            HttpRequestException = ex,
+            HttpException = ex,
             RequestHeaders = new ReadOnlyDictionary<string, string>(
                 request.Headers.ToDictionary(h => h.Key, h => string.Join(",", h.Value)))
         };

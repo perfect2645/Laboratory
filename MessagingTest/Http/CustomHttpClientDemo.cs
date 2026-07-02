@@ -69,8 +69,11 @@ public class CustomHttpClientDemo
                 _httpClientContainer.ServiceProvider.GetRequiredKeyedService<SampleCustomHttpClient>(ClientKey);
 
             var response = await customClient.GetAsync("shirts", null);
+            response.EnsureSuccessStatusCode();
 
-            // handle your response
+            var shirts = await response.Content.ReadAsStringAsync();
+
+            Console.WriteLine(shirts);
         }
         catch (HttpException e)
         {
