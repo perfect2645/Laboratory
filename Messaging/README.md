@@ -30,6 +30,7 @@
     ]
   }
 }
+```
 
 ### Demo of how to use the HttpClient in your application:
 
