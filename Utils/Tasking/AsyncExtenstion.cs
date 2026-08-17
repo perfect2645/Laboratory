@@ -1,6 +1,4 @@
-﻿using Logging;
-
-namespace Utils.Tasking
+﻿namespace Utils.Tasking
 {
     public static class AsyncExtenstion
     {
@@ -15,9 +13,8 @@ namespace Utils.Tasking
                 }
                 catch (TimeoutException)
                 {
-                    Log4Logger.Logger.Warn($"The operation has timed out after {timeout.TotalMilliseconds} milliseconds.");
                     cts.Cancel();
-                    return await task;
+                    throw;
                 }
             }
 
@@ -46,8 +43,8 @@ namespace Utils.Tasking
                 }
                 catch (TimeoutException)
                 {
-                    Log4Logger.Logger.Warn($"The operation has timed out after {timeout.TotalMilliseconds} milliseconds.");
                     cts.Cancel();
+                    throw;
                 }
             }
 
