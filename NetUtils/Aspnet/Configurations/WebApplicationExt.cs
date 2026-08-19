@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using NetUtils.Aspnet.Configurations.Swagger;
+using Serilog;
 
 namespace NetUtils.Aspnet.Configurations
 {
@@ -43,7 +44,7 @@ namespace NetUtils.Aspnet.Configurations
                 {
                     var exception = context.Features.Get<IExceptionHandlerPathFeature>()?.Error;
 
-                    Log4Logger.Logger.Error($"Unhandled exception at {context.Request.Path}", exception);
+                    Log.Error(exception, "Unhandled exception at {context.Request.Path}", context.Request.Path);
 
                     context.Response.StatusCode = 500;
                     context.Response.ContentType = "application/json";

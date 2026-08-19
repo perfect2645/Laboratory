@@ -1,5 +1,4 @@
-﻿using Logging;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,7 +11,6 @@ namespace NetUtils.Repository.Configurations
         {
             if (string.IsNullOrEmpty(configPath))
             {
-                Log4Logger.Logger.Error($"DbConnectionString is empty.");
                 throw new ArgumentNullException($"DbConnectionString is empty.");
             }
 
