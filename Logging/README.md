@@ -116,6 +116,18 @@ Sample : [Serilog in a hosting based WPF program](https://github.com/perfect2645
         .AddSerilogger()
 ```
 
+Sample : [Serilog in a asp.net core Webapi service](https://github.com/perfect2645/artifact-recognition/blob/main/artifact-service-domain/Program.cs)
+
+```
+var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.AddSerilogger();
+
+// rest of the code
+builder.Services.AddControllers();
+
+```
+
 ## Log4net in Webapi (Obsolete since ver 2.0.0)
 
 ```
