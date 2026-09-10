@@ -1,5 +1,4 @@
-﻿using Logging;
-using Messaging.Http.Content;
+﻿using Messaging.Http.Content;
 using Messaging.Http.Exceptions;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -28,20 +27,18 @@ namespace Messaging.Http.Client
                 {
                     if (string.IsNullOrWhiteSpace(key))
                     {
-                        Log4Logger.Logger.Warn($"Header key is empty, skip this header, value: {value}");
-                        continue;
+                        throw new HttpException("Header key is empty", HttpStatus.AddRequestHeader);
                     }
 
                     bool addSuccess = request.Headers.TryAddWithoutValidation(key, value);
                     if (!addSuccess)
                     {
-                        Log4Logger.Logger.Debug($"Header [{key}] already exists, skip, value: {value}");
+                        throw new HttpException($"Failed to add header [{key}:{value}]", HttpStatus.AddRequestHeader);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Log4Logger.Logger.Error("HttpClient AddHeaders Error", ex);
                 throw new HttpException(ex, ex.Message, HttpStatus.AddRequestHeader);
             }
         }
@@ -67,20 +64,18 @@ namespace Messaging.Http.Client
                 {
                     if (string.IsNullOrWhiteSpace(key))
                     {
-                        Log4Logger.Logger.Warn($"ContentHeader key is empty, skip this header, value: {value}");
-                        continue;
+                        throw new HttpException("ContentHeader key is empty", HttpStatus.AddRequestHeader);
                     }
 
                     bool addSuccess = request.Content.Headers.TryAddWithoutValidation(key, value);
                     if (!addSuccess)
                     {
-                        Log4Logger.Logger.Debug($"ContentHeader [{key}] already exists, skip add, value: {value}");
+                        throw new HttpException($"Failed to add content header [{key}:{value}]", HttpStatus.AddRequestHeader);
                     }
                 }
             }
             catch (Exception ex)
             {
-                Log4Logger.Logger.Error("HttpClient Add request content headers failed", ex);
                 throw new HttpException(ex, ex.Message, HttpStatus.AddRequestHeader);
             }
         }
@@ -117,7 +112,6 @@ namespace Messaging.Http.Client
             }
             catch (Exception ex)
             {
-                Log4Logger.Logger.Error("HttpClient BuildHttpContent Error", ex);
                 throw new HttpException(ex, ex.Message, HttpStatus.BuildRequestContent);
             }
         }
@@ -243,15 +237,5 @@ namespace Messaging.Http.Client
         }
 
         #endregion Methods
-
-        #region Log
-
-        public void Log(string message)
-        {
-            var threadId = Environment.CurrentManagedThreadId;
-            Log4Logger.Logger.Info($"[Thread: {threadId}]{message}");
-        }
-
-        #endregion Log
     }
 }

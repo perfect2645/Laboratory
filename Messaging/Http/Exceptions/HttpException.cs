@@ -1,6 +1,4 @@
-﻿using Logging;
-using System.Text;
-using Utils;
+﻿using System.Text;
 using Utils.Enumerable;
 using Utils.Generic;
 
@@ -66,7 +64,7 @@ namespace Messaging.Http.Exceptions
             }
             catch (Exception error)
             {
-                Log4Logger.Logger.Error("Error while processing inner exception", error);
+                throw new Exception($"GetInnerException error: {error.Message}, ex:{ex.Message}");
             }
         }
 

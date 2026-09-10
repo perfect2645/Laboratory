@@ -1,5 +1,4 @@
-﻿using Logging;
-using Messaging.RabbitMq.Connections;
+﻿using Messaging.RabbitMq.Connections;
 using Messaging.RabbitMq.Producer;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
@@ -30,12 +29,11 @@ namespace service.messaging.Clients.RabbitMq.Producer
 
         private void OnError(Exception exception)
         {
-            Log4Logger.Logger.Error($"RabbitMQ QueueMode Producer initialized failed.", exception);
+            throw exception;
         }
 
         private void OnCompleted()
         {
-            Log4Logger.Logger.Info($"RabbitMQ QueueMode Producer initialized successfully.");
         }
 
         private async Task BuildConnectionAsync()
@@ -59,28 +57,15 @@ namespace service.messaging.Clients.RabbitMq.Producer
                 Persistent = true
             };
 
-            try
-            {
-                var jsonMsg = JsonSerializer.Serialize(messagePayload);
-                byte[] msgBody = Encoding.UTF8.GetBytes(jsonMsg);
-                await _channel!.BasicPublishAsync(exchange: string.Empty,
-                    routingKey: QueueName,
-                    mandatory: true,
-                    basicProperties: properties,
-                    body: msgBody,
-                    cancellationToken: ct
-                );
-            }
-            catch (PublishException pex)
-            {
-                Log4Logger.Logger.Error(pex);
-                throw;
-            }
-            catch (Exception e)
-            {
-                Log4Logger.Logger.Error(e);
-                throw;
-            }
+            var jsonMsg = JsonSerializer.Serialize(messagePayload);
+            byte[] msgBody = Encoding.UTF8.GetBytes(jsonMsg);
+            await _channel!.BasicPublishAsync(exchange: string.Empty,
+                routingKey: QueueName,
+                mandatory: true,
+                basicProperties: properties,
+                body: msgBody,
+                cancellationToken: ct
+            );
         }
     }
 }

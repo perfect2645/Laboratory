@@ -1,5 +1,4 @@
-﻿using Logging;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using Utils.Ioc;
 using Utils.Tasking;
@@ -24,13 +23,12 @@ namespace Messaging.RabbitMq.Connections
 
         private void OnInitError(Exception exception)
         {
-            Log4Logger.Logger.Error($"RabbitMQ Connection initialized failed.", exception);
+            throw exception;
         }
 
         private void OnInitCompleted(IConnection connection)
         {
             _connection = connection;
-            Log4Logger.Logger.Info($"RabbitMQ Connection initialized successfully.");
         }
 
         public virtual async Task<IConnection> BuildConnectionAsync()

@@ -1,4 +1,3 @@
-using Logging;
 using Messaging.Http.Client;
 using Messaging.Http.Configurations;
 using Messaging.Http.Exceptions;
@@ -180,7 +179,6 @@ public static class ClientRegistrationExt
                         ? $"Request failed, will retry in {timespan.TotalSeconds} seconds (attempt {retryAttempt}): {outcome.Exception.Message}"
                         : $"Request returned {outcome.Result.StatusCode}, will retry in {timespan.TotalSeconds} seconds (attempt {retryAttempt})";
 
-                    Log4Logger.Logger.Warn(message);
                     await Task.CompletedTask;
                 }
             );
