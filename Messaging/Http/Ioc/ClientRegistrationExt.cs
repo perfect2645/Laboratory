@@ -100,7 +100,7 @@ public static class ClientRegistrationExt
             var builder = services.AddHttpApiClient(apiKey, httpSettings.ToApiClientOptions)
             .AddPolicyHandler((serviceProvider, _) => BuildRetryPolicy(services, apiKey, serviceProvider));
             
-            services.AddKeyedTransient<TApiClient>(apiKey, (serviceProvider, _) =>
+            services.AddKeyedScoped<TApiClient>(apiKey, (serviceProvider, _) =>
             {
                 var httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient(apiKey);
                 var clientInstance = Activator.CreateInstance(typeof(TApiClient), httpClient) as TApiClient
@@ -135,7 +135,7 @@ public static class ClientRegistrationExt
             Func<IServiceProvider, HttpClient, IHttpApiClientOptions, TClient> customClient)
             where TClient : class
         {
-            services.AddKeyedTransient<TClient>(clientIdentifier, (serviceProvider, client) =>
+            services.AddKeyedScoped<TClient>(clientIdentifier, (serviceProvider, client) =>
             {
                 var httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient(clientIdentifier);
                 var clientOptions = serviceProvider.GetClientOptions(clientIdentifier);
@@ -154,6 +154,10 @@ public static class ClientRegistrationExt
         }
 
         httpClient.BaseAddress = options.BaseAddress;
+        if (!string.IsNullOrEmpty(options.Resource))
+        {
+            httpClient.BaseAddress = new Uri(httpClient.BaseAddress, options.Resource);
+        }
         httpClient.Timeout = options.Timeout;
         foreach ((string key, string value) in options.DefaultHeaders)
         {

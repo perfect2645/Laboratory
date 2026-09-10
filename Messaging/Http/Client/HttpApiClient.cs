@@ -86,11 +86,6 @@ namespace Messaging.Http.Client
 
         private HttpContent BuildHttpContent(IHttpApiContent content)
         {
-            if (content == null)
-            {
-                throw new HttpException("Http request Content is null.", HttpStatus.NoContent);
-            }
-
             var contentType = content.ContentType.MediaType;
             if (contentType == null)
             {
@@ -123,15 +118,14 @@ namespace Messaging.Http.Client
         public async Task<string?> GetStringAsync(IHttpApiContent? content = null,
             CancellationToken cancellationToken = default)
         {
-            content ??= new HttpStringContent(httpClient.BaseAddress!.AbsoluteUri);
+            content ??= new HttpStringContent();
             return await SendStringAsync(HttpMethod.Get, content, cancellationToken);
         }
 
         public async Task<TResponse?> GetAsync<TResponse>(IHttpApiContent? content = null,
             CancellationToken cancellationToken = default) where TResponse : class
         {
-            content ??= new HttpStringContent(httpClient.BaseAddress!.AbsoluteUri);
-
+            content ??= new HttpStringContent();
             return await SendRequestAsync<TResponse>(HttpMethod.Get, content, cancellationToken);
         }
         
@@ -149,7 +143,7 @@ namespace Messaging.Http.Client
         
         private async Task<string?> SendStringAsync(
             HttpMethod method,
-            IHttpApiContent  content,
+            IHttpApiContent content,
             CancellationToken cancellationToken)
         {
             using var response = await SendHttpRequestInternal(method, content, cancellationToken);
@@ -159,7 +153,7 @@ namespace Messaging.Http.Client
 
         private async Task<TResult?> SendRequestAsync<TResult>(
             HttpMethod method,
-            IHttpApiContent  content,
+            IHttpApiContent content,
             CancellationToken cancellationToken)
             where TResult : class
         {
@@ -185,19 +179,12 @@ namespace Messaging.Http.Client
             IHttpApiContent content, 
             CancellationToken cancellationToken)
         {
-            if (content == null)
-            {
-                throw new HttpException("Http request Content is null.", HttpStatus.NoContent);
-            }
-            
-            if (string.IsNullOrEmpty(content.RequestUrl))
-            {
-                throw new HttpException("Http request url is empty.", HttpStatus.BadRequestUrl);
-            }
+
+            var fullUri = content.RelativeUri is null ? httpClient.BaseAddress! : new Uri(httpClient.BaseAddress!, content.RelativeUri);
 
             try
             {
-                using var request = new HttpRequestMessage(httpMethod, content.RequestUrl);
+                using var request = new HttpRequestMessage(httpMethod, fullUri);
                 AddHeaders(request, content);
                 
                 if (httpMethod != HttpMethod.Get)

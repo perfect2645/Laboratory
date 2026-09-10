@@ -7,7 +7,7 @@ using Utils.Json;
 
 namespace Messaging.Http.Content
 {
-    public class HttpStringContent(string url) : IHttpApiContent
+    public class HttpStringContent : IHttpApiContent
     {
         #region Properties
         
@@ -21,7 +21,7 @@ namespace Messaging.Http.Content
         public IReadOnlyDictionary<string, string> ContentHeaders => _contentHeaders;
         public IReadOnlyDictionary<string, object> Content => _bodyPairs;
         public MediaTypeHeaderValue ContentType { get; set; } = MediaTypeHeaderValue.Parse("application/json");
-        public string RequestUrl { get; } = url;
+        public string? RelativeUri { get; init; }
 
         #endregion Properties
 
