@@ -2,7 +2,7 @@
 
 namespace Messaging.Http.Response
 {
-    public class ApiResult<TPayload> where TPayload : class
+    public record ApiResult<TPayload> where TPayload : class
     {
         [JsonPropertyName("code")]
         public int Code { get; set; }
