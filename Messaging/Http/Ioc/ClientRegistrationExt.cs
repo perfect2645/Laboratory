@@ -1,6 +1,8 @@
+using Autofac.Core;
 using Messaging.Http.Client;
 using Messaging.Http.Configurations;
 using Messaging.Http.Exceptions;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Polly;
@@ -16,47 +18,9 @@ public static class ClientRegistrationExt
     {
         public IHttpClientBuilder AddHttpApiClient(
             string clientIdentifier,
-            Action<HttpApiClientOptions> configureOptions)
-        {
-            if (services == null)
-            {
-                throw new HttpException($"HttpClient Register error. Ioc Service :[{nameof(services)}] is null", HttpStatus.ClientRegister);
-            }
-            if (string.IsNullOrEmpty(clientIdentifier))
-            {
-                throw new HttpException($"HttpClient Register error. clientIdentifier is empty.", HttpStatus.ClientRegister);
-            }
-            if (configureOptions == null)
-            {
-                throw new HttpException($"HttpClient Register error. Client configureOptions is empty.", HttpStatus.ClientRegister);
-            }
-
-            services.Configure(clientIdentifier, configureOptions);
-
-            var clientBuilder = services.AddHttpClient(clientIdentifier, (serviceProvider, httpClient) =>
-            {
-                BuildHttpClient(clientIdentifier, serviceProvider, httpClient);
-            });
-        
-            return clientBuilder;
-        }
-        
-        public IHttpClientBuilder AddHttpApiClient(
-            string clientIdentifier,
             Func<HttpApiClientOptions> configureOptions)
         {
-            if (services == null)
-            {
-                throw new HttpException($"HttpClient Register error. Ioc Service :[{nameof(services)}] is null", HttpStatus.ClientRegister);
-            }
-            if (string.IsNullOrEmpty(clientIdentifier))
-            {
-                throw new HttpException($"HttpClient Register error. clientIdentifier is empty.", HttpStatus.ClientRegister);
-            }
-            if (configureOptions == null)
-            {
-                throw new HttpException($"HttpClient Register error. Client configureOptions is empty.", HttpStatus.ClientRegister);
-            }
+            ValidateClientOptions(services, clientIdentifier, configureOptions);
 
             services.Configure<HttpApiClientOptions>(clientIdentifier, opt => opt.CopyAllFrom(configureOptions.Invoke()));
 
@@ -64,18 +28,39 @@ public static class ClientRegistrationExt
             {
                 BuildHttpClient(clientIdentifier, serviceProvider, httpClient);
             });
+
+            return clientBuilder;
+        }
+
+        public IHttpClientBuilder AddHttpApiClient<TService, TApiClient>(
+            string clientIdentifier,
+            Func<HttpApiClientOptions> configureOptions)
+            where TService : class where TApiClient : HttpApiClient, TService
+        {
+            ValidateClientOptions(services, clientIdentifier, configureOptions);
+
+            services.Configure<HttpApiClientOptions>(clientIdentifier, opt => opt.CopyAllFrom(configureOptions.Invoke()));
+
+            services.AddKeyedScoped<TService, TApiClient>(clientIdentifier);
+
+            var clientBuilder = services.AddHttpClient<TService, TApiClient>(clientIdentifier, (serviceProvider, httpClient) =>
+            {
+                BuildHttpClient(clientIdentifier, serviceProvider, httpClient);
+            });
         
             return clientBuilder;
         }
-        
-        public IHttpClientBuilder AddHttpClientWithRetryPolicy(
-            string clientIdentifier,
-            Action<HttpApiClientOptions> configureOptions)
-        {
-            var clientBuilder = services.AddHttpApiClient(clientIdentifier, configureOptions)
-                .AddPolicyHandler((serviceProvider, request) => BuildRetryPolicy(services, clientIdentifier, serviceProvider));
 
-            return clientBuilder;
+        private void ValidateClientOptions(string clientIdentifier, Func<HttpApiClientOptions> configureOptions)
+        {
+            if (string.IsNullOrEmpty(clientIdentifier))
+            {
+                throw new HttpException($"HttpClient Register error. clientIdentifier is empty.", HttpStatus.ClientRegister);
+            }
+            if (configureOptions == null)
+            {
+                throw new HttpException($"HttpClient Register error. Client configureOptions is empty.", HttpStatus.ClientRegister);
+            }
         }
 
         public IHttpClientBuilder AddHttpClientWithRetryPolicy(
@@ -88,27 +73,17 @@ public static class ClientRegistrationExt
             return clientBuilder;
         }
 
-        public IHttpClientBuilder AddConfiguratedHttpClient<TApiClient>(string apiKey)
-            where TApiClient : HttpApiClient
+        public IHttpClientBuilder AddConfiguratedHttpClient<TService, TApiClient>(string apiKey, IConfiguration? configuration = null)
+            where TService : class where TApiClient : HttpApiClient, TService
         {
-            var httpSettings = HttpConfigHelper.ReadFromConfig(HttpClientConstants.ApiSettingsHttp, apiKey);
+            var httpSettings = HttpConfigHelper.ReadFromConfig(HttpClientConstants.ApiSettingsHttp, apiKey, configuration);
             if (httpSettings is null)
             {
                 throw new HttpException($"Read http client config [{apiKey}] failed. Please check your appsettings.json", HttpStatus.Configuration);
             }
             
-            var builder = services.AddHttpApiClient(apiKey, httpSettings.ToApiClientOptions)
+            var builder = services.AddHttpApiClient<TService, TApiClient>(apiKey, httpSettings.ToApiClientOptions)
             .AddPolicyHandler((serviceProvider, _) => BuildRetryPolicy(services, apiKey, serviceProvider));
-            
-            services.AddKeyedScoped<TApiClient>(apiKey, (serviceProvider, _) =>
-            {
-                var httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient(apiKey);
-                var clientInstance = Activator.CreateInstance(typeof(TApiClient), httpClient) as TApiClient
-                       ?? throw new HttpException(
-                           $"Failed to construct {typeof(TApiClient).Name}, must accept HttpClient as constructor parameter",
-                           HttpStatus.ClientRegister);
-                return clientInstance;
-            });
 
             return builder;
         }

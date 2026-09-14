@@ -39,11 +39,11 @@ public static class HttpConfigHelper
         }
     }
     
-    public static HttpApiClientConfig? ReadFromConfig(string section, string apiKey)
+    public static HttpApiClientConfig? ReadFromConfig(string section, string apiKey, IConfiguration? configuration = null)
     {
         try
         {
-            var httpSettings = AppConfig.Configuration!.GetSection(section)
+            var httpSettings = (configuration ?? AppConfig.Configuration)!.GetSection(section)
                 .Get<IReadOnlyList<HttpApiClientConfig>>();
 
             if (httpSettings == null)
