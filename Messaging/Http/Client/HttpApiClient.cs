@@ -99,9 +99,9 @@ namespace Messaging.Http.Client
                     var type when type.Equals(MediaTypeJson, StringComparison.OrdinalIgnoreCase)
                         => content.GetJsonContent(),
                     var type when type.Equals(MediaTypeForm, StringComparison.OrdinalIgnoreCase)
-                        => content.GetStringContent(),
+                        => content.GetFormContent(),
                     var type when type.Equals(MediaTypeText, StringComparison.OrdinalIgnoreCase)
-                        => content.GetStringContent(),
+                        => content.GetFormContent(),
                     _ => JsonContent.Create(content.Content, content.ContentType, JsonEncoder.JsonOption)
                 };
             }
