@@ -1,4 +1,5 @@
 ﻿using System.Net.Http.Headers;
+using System.Net.Http.Json;
 
 namespace Messaging.Http.Content
 {
@@ -9,7 +10,7 @@ namespace Messaging.Http.Content
         IReadOnlyDictionary<string, string> ContentHeaders { get; }
         IReadOnlyDictionary<string, object> Content { get; }
         MediaTypeHeaderValue ContentType { get; set; }
-        StringContent GetJsonContent();
-        StringContent GetStringContent();
+        JsonContent GetJsonContent();
+        HttpContent GetFormContent();
     }
 }

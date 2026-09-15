@@ -1,4 +1,6 @@
-﻿using System.Net.Http.Headers;
+﻿using System.Globalization;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using Utils.Enumerable;
@@ -13,9 +15,9 @@ namespace Messaging.Http.Content
         
         private readonly Encoding _utf8 = Encoding.UTF8;
 
-        private readonly Dictionary<string, string> _headers = new();
-        private readonly Dictionary<string, string> _contentHeaders = new();
-        private readonly Dictionary<string, object> _bodyPairs = new();
+        private readonly Dictionary<string, string> _headers = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, string> _contentHeaders = new(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, object> _bodyPairs = new(StringComparer.OrdinalIgnoreCase);
 
         public IReadOnlyDictionary<string, string> Headers => _headers;
         public IReadOnlyDictionary<string, string> ContentHeaders => _contentHeaders;
@@ -29,7 +31,6 @@ namespace Messaging.Http.Content
 
         public void AddHeader(string key, string value)
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(key);
             _headers.AddOrUpdate(key, value);
         }
 
@@ -51,7 +52,6 @@ namespace Messaging.Http.Content
 
         public void AddContentHeader(string key, string value)
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(key);
             _contentHeaders.AddOrUpdate(key, value);
         }
 
@@ -73,7 +73,6 @@ namespace Messaging.Http.Content
 
         public void AddContent(string key, object value)
         {
-            ArgumentException.ThrowIfNullOrWhiteSpace(key);
             _bodyPairs.AddOrUpdate(key, value);
         }
 
@@ -89,32 +88,18 @@ namespace Messaging.Http.Content
                 _bodyPairs.AddOrUpdate(pairs);
         }
 
-        public virtual StringContent GetJsonContent()
+        public virtual JsonContent GetJsonContent()
         {
-            var json = JsonSerializer.Serialize(_bodyPairs, JsonEncoder.JsonOption);
-            return new StringContent(json, _utf8, ContentType);
+            return JsonContent.Create(_bodyPairs, ContentType, JsonEncoder.JsonOption);
         }
 
-        public virtual StringContent GetStringContent()
+        public virtual HttpContent GetFormContent()
         {
             var keyValueList = _bodyPairs
-                .Select(kvp => $"{Uri.EscapeDataString(kvp.Key)}={Uri.EscapeDataString(kvp.Value.ToString() ?? string.Empty)}");
-
-            var formData = string.Join("&", keyValueList);
-            return new StringContent(formData, _utf8, ContentType);
-        }
-
-        public virtual StringContent GetArrayContent()
-        {
-            var sb = new StringBuilder();
-            foreach (var value in Content.Values)
-            {
-                sb.Append($"{value},");
-            }
-            var stringContent = sb.ToString().TrimEnd(',');
-            stringContent = $"[{stringContent}]";
-
-            return new StringContent(stringContent, _utf8, ContentType);
+                .Select(pair => new KeyValuePair<string, string>(
+                    pair.Key, 
+                    Convert.ToString(pair.Value, CultureInfo.InvariantCulture) ?? string.Empty));
+            return new FormUrlEncodedContent(keyValueList);
         }
         
         #endregion Content
