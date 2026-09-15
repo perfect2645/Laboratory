@@ -1,5 +1,4 @@
 ﻿using System.Collections.Concurrent;
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 using Utils.Generic;
 using Utils.Json;
@@ -10,8 +9,6 @@ namespace Utils.Enumerable
     {
         #region Dictionary
 
-        private static readonly ConditionalWeakTable<object, object> _lockTable = new();
-
         extension<TKey, TValue>(Dictionary<TKey, TValue> dic) where TKey : notnull
         {
             public void AddOrUpdate(TKey key, TValue value)
@@ -19,37 +16,32 @@ namespace Utils.Enumerable
                 ArgumentNullException.ThrowIfNull(dic, nameof(dic));
                 ArgumentNullException.ThrowIfNull(key, nameof(key));
 
-                // thread-safe update
-                object lockObj = _lockTable.GetValue(dic, _ => new object());
-                lock (lockObj)
+                if (dic.TryGetValue(key, out _))
                 {
                     dic[key] = value;
+                    return;
                 }
+                dic.TryAdd(key, value);
             }
 
             public void AddOrUpdate(Dictionary<TKey, TValue> dicToAdd)
             {
                 ArgumentNullException.ThrowIfNull(dic, nameof(dic));
 
-                if (dicToAdd == null || dicToAdd.Count == 0)
+                if (dicToAdd is null || dicToAdd.Count == 0)
                 {
                     return;
                 }
 
-                object lockObj = _lockTable.GetValue(dic, _ => new object());
-
-                lock (lockObj)
+                foreach ((TKey key, TValue value) in dicToAdd)
                 {
-                    foreach ((TKey key, TValue value) in dicToAdd)
-                    {
-                        dic[key] = value;
-                    }
+                    dicToAdd.AddOrUpdate(key, value);
                 }
             }
 
             public bool HasItem()
             {
-                if (dic == null)
+                if (dic is null)
                 {
                     return false;
                 }
@@ -69,21 +61,17 @@ namespace Utils.Enumerable
 
             public string? GetString(string key)
             {
-                if (dic == null || key == null)
+                if (dic is null || key is null)
                 {
                     return null;
                 }
 
-                if (!dic.ContainsKey(key))
+                if (dic.TryGetValue(key, out var value))
                 {
-                    return null;
+                    return value.ToString();
                 }
 
-                if (dic[key] == null)
-                {
-                    return null;
-                }
-                return dic[key].ToString();
+                return null;
             }
 
             public int GetInt(string key)
@@ -94,7 +82,7 @@ namespace Utils.Enumerable
 
             public object? GetValue(string key)
             {
-                if (dic == null || key == null)
+                if (dic is null || key is null)
                 {
                     return null;
                 }
@@ -131,7 +119,7 @@ namespace Utils.Enumerable
 
             public bool HasItem()
             {
-                if (dic == null)
+                if (dic is null)
                 {
                     return false;
                 }
@@ -141,21 +129,22 @@ namespace Utils.Enumerable
 
             public string? GetString(string key)
             {
-                if (dic == null || key == null)
+                if (dic is null || key is null)
                 {
                     return null;
                 }
 
-                if (!dic.ContainsKey(key))
+                if (dic.TryGetValue(key, out var value))
                 {
-                    return null;
+                    return value.ToString();
                 }
-                return dic[key].ToString();
+
+                return null;
             }
 
             public object? GetValue(string key)
             {
-                if (dic == null || key == null)
+                if (dic is null || key is null)
                 {
                     return null;
                 }

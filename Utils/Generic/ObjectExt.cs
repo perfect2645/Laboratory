@@ -6,7 +6,7 @@
         {
             public int ToInt()
             {
-                if (obj == null)
+                if (obj is null)
                 {
                     return 0;
                 }
@@ -25,7 +25,7 @@
 
             public double ToDouble()
             {
-                if (obj == null)
+                if (obj is null)
                 {
                     return 0;
                 }
