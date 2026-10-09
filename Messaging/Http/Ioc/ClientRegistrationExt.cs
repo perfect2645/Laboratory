@@ -37,15 +37,12 @@ public static class ClientRegistrationExt
             Func<HttpApiClientOptions> configureOptions)
             where TService : class where TApiClient : HttpApiClient, TService
         {
-            ValidateClientOptions(services, clientIdentifier, configureOptions);
+            var clientBuilder = services.AddHttpApiClient(clientIdentifier, configureOptions);
 
-            services.Configure<HttpApiClientOptions>(clientIdentifier, opt => opt.CopyAllFrom(configureOptions.Invoke()));
-
-            services.AddKeyedScoped<TService, TApiClient>(clientIdentifier);
-
-            var clientBuilder = services.AddHttpClient<TService, TApiClient>(clientIdentifier, (serviceProvider, httpClient) =>
+            services.AddKeyedScoped<TService, TApiClient>(clientIdentifier, (serviceProvider, _) =>
             {
-                BuildHttpClient(clientIdentifier, serviceProvider, httpClient);
+                var httpClient = serviceProvider.GetRequiredService<IHttpClientFactory>().CreateClient(clientIdentifier);
+                return ActivatorUtilities.CreateInstance<TApiClient>(serviceProvider, httpClient);
             });
         
             return clientBuilder;

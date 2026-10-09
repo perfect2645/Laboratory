@@ -180,7 +180,13 @@ namespace Messaging.Http.Client
             CancellationToken cancellationToken)
         {
 
-            var fullUri = content.RelativeUri is null ? httpClient.BaseAddress! : new Uri(httpClient.BaseAddress!, content.RelativeUri);
+            if (httpClient.BaseAddress is null && content.RelativeUri is null)
+            {
+                throw new HttpException("HttpClient url is not set.", HttpStatus.BadRequestUrl);
+            }
+
+            var fullUri = httpClient.BaseAddress is null ? new Uri(content.RelativeUri!)
+                : new Uri(httpClient.BaseAddress, content.RelativeUri);
 
             try
             {
