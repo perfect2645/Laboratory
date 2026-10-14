@@ -64,9 +64,9 @@ namespace NetUtils.Aspnet.Configurations.Swagger
                 app.UseSwagger();
                 app.UseSwaggerUI(options =>
                 {
-                    var provider = app.Services.GetRequiredService<IApiVersionDescriptionProvider>();
+                    var descriptions = app.DescribeApiVersions();
 
-                    foreach (var description in provider.ApiVersionDescriptions.Reverse())
+                    foreach (var description in descriptions.Reverse())
                     {
                         var versionName = $"{app.Environment.ApplicationName} {description.GroupName.ToUpperInvariant()}";
                         options.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",

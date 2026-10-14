@@ -19,7 +19,7 @@ namespace NetUtils.Aspnet.Configurations
                 if (app.Environment.IsDevelopment())
                 {
                     app.UseDeveloperExceptionPage();
-                    app.MapOpenApi();
+                    //app.MapOpenApi();
                     app.UseSwaggerExt();
                 }
                 else
