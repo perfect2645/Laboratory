@@ -13,8 +13,7 @@ namespace Logging
                 hostBuilder.UseSerilog((host, loggerConfiguration) =>
                 {
                     loggerConfiguration.ReadFrom.Configuration(host.Configuration)
-                        .Enrich.FromLogContext()
-                        .WriteTo.Console();
+                        .Enrich.FromLogContext();
                 });
                 return hostBuilder;
             }
