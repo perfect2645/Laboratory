@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NetUtils.Aspnet.Errors;
 using NetUtils.Aspnet.Filters;
 using System.Reflection;
+using System.Text.Json.Serialization;
 using Utils.Ioc;
 
 namespace NetUtils.Aspnet.Configurations
@@ -21,12 +22,12 @@ namespace NetUtils.Aspnet.Configurations
 
             }).AddJsonOptions(options =>
             {
-                options.JsonSerializerOptions.DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull;
+                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
                 options.JsonSerializerOptions.WriteIndented = true;
-                options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
             });
 
-            builder.Services.AddTransient<ProblemDetailsFactory>();
+            builder.Services.AddTransient<ProblemDetailsFactory, ApiProblemDetailsFactory>();
             builder.Services.AddProblemDetails(options =>
                 options.CustomizeProblemDetails = context =>
                     ApiProblemDetails.ApplyDefaults(context.HttpContext, context.ProblemDetails));
@@ -38,7 +39,7 @@ namespace NetUtils.Aspnet.Configurations
         {
             builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
-            builder.Host.ConfigureContainer<ContainerBuilder>((context, containerBuilder) =>
+            builder.Host.ConfigureContainer<ContainerBuilder>((_, containerBuilder) =>
             {
                 containerBuilder.RegisterModule(new AutoRegisterModule(
                     assemblies

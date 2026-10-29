@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Diagnostics;
-using System.Text.Json;
 
 namespace NetUtils.Aspnet.Errors;
 
@@ -24,25 +23,26 @@ public static class ApiProblemDetails
         problem.Type ??= "about:blank";
         problem.Title ??= ReasonPhrases.GetReasonPhrase(status);
         problem.Instance ??= context.Request.Path.Value;
-        problem.Detail ??= status >= 500
+
+        problem.Detail ??= status >= StatusCodes.Status500InternalServerError
             ? "An unexpected server error occurred. Please try again later."
             : "The request could not be completed.";
 
         problem.Extensions.TryAdd("code", status switch
         {
-            400 => "INVALID_REQUEST",
-            401 => "UNAUTHORIZED",
-            403 => "FORBIDDEN",
-            404 => "NOT_FOUND",
-            405 => "METHOD_NOT_ALLOWED",
-            409 => "CONFLICT",
-            415 => "UNSUPPORTED_MEDIA_TYPE",
-            422 => "UNPROCESSABLE_ENTITY",
-            429 => "RATE_LIMITED",
-            500 => "INTERNAL_SERVER_ERROR",
-            502 => "BAD_GATEWAY",
-            503 => "SERVICE_UNAVAILABLE",
-            504 => "GATEWAY_TIMEOUT",
+            StatusCodes.Status400BadRequest => "INVALID_REQUEST",
+            StatusCodes.Status401Unauthorized => "UNAUTHORIZED",
+            StatusCodes.Status403Forbidden => "FORBIDDEN",
+            StatusCodes.Status404NotFound => "NOT_FOUND",
+            StatusCodes.Status405MethodNotAllowed => "METHOD_NOT_ALLOWED",
+            StatusCodes.Status409Conflict => "CONFLICT",
+            StatusCodes.Status415UnsupportedMediaType => "UNSUPPORTED_MEDIA_TYPE",
+            StatusCodes.Status422UnprocessableEntity => "UNPROCESSABLE_ENTITY",
+            StatusCodes.Status429TooManyRequests => "RATE_LIMITED",
+            StatusCodes.Status500InternalServerError => "INTERNAL_SERVER_ERROR",
+            StatusCodes.Status502BadGateway => "BAD_GATEWAY",
+            StatusCodes.Status503ServiceUnavailable => "SERVICE_UNAVAILABLE",
+            StatusCodes.Status504GatewayTimeout => "GATEWAY_TIMEOUT",
             _ => "HTTP_ERROR"
         });
 
@@ -70,7 +70,7 @@ public static class ApiProblemDetails
 
         return context.Response.WriteAsJsonAsync(
             problem,
-            options: (JsonSerializerOptions?)null,
+            options: null,
             contentType: ContentType,
             cancellationToken: context.RequestAborted);
     }

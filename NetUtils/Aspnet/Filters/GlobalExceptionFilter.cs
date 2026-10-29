@@ -4,41 +4,39 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 using NetUtils.Aspnet.Errors;
 
-namespace NetUtils.Aspnet.Filters;
-
-public class GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger, IWebHostEnvironment hostEnvironment)
-    : IAsyncExceptionFilter
+namespace NetUtils.Aspnet.Filters
 {
-    public Task OnExceptionAsync(ExceptionContext context)
+    public class GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger,
+        IWebHostEnvironment hostEnvironment) : IAsyncExceptionFilter
     {
-        // A started response cannot be replaced. Let the exception middleware handle aborted requests.
-        if (context.HttpContext.Response.HasStarted
-            || context.Exception is OperationCanceledException && context.HttpContext.RequestAborted.IsCancellationRequested)
+        public Task OnExceptionAsync(ExceptionContext context)
         {
+            var httpContext = context.HttpContext;
+            var exception = context.Exception;
+            // A started response cannot be replaced. Let the exception middleware handle aborted requests.
+            if (httpContext.Response.HasStarted
+                || (httpContext.RequestAborted.IsCancellationRequested
+                    && exception is OperationCanceledException or IOException))
+            {
+                return Task.CompletedTask;
+            }
+
+            var traceId = ApiProblemDetails.GetTraceId(httpContext);
+
+            logger.LogError(
+                exception,
+                "Unhandled controller exception. TraceId: {TraceId}",
+                traceId);
+
+            var problemDetails = ApiProblemDetails.FromException(
+                httpContext,
+                exception,
+                hostEnvironment);
+
+            context.Result = new ObjectResult(problemDetails);
+            context.ExceptionHandled = true;
+
             return Task.CompletedTask;
         }
-
-        logger.LogError(
-            context.Exception,
-            "Unhandled controller exception. TraceId: {TraceId}",
-            ApiProblemDetails.GetTraceId(context.HttpContext));
-
-        var problem = ApiProblemDetails.FromException(context.HttpContext, context.Exception, hostEnvironment);
-        context.Result = new ObjectResult(problem)
-        {
-            StatusCode = problem.Status,
-            ContentTypes = { ApiProblemDetails.ContentType }
-        };
-        context.ExceptionHandled = true;
-
-        return Task.CompletedTask;
     }
-}
-
-// Retained for source compatibility with existing consumers; the filter now returns ProblemDetails.
-public class ErrorResponse
-{
-    public int StatusCode { get; set; }
-    public string Message { get; set; } = string.Empty;
-    public string? Details { get; set; }
 }
