@@ -1,7 +1,9 @@
 ﻿using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
+using NetUtils.Aspnet.Errors;
 using NetUtils.Aspnet.Filters;
 using System.Reflection;
 using Utils.Ioc;
@@ -23,6 +25,11 @@ namespace NetUtils.Aspnet.Configurations
                 options.JsonSerializerOptions.WriteIndented = true;
                 options.JsonSerializerOptions.Converters.Add(new System.Text.Json.Serialization.JsonStringEnumConverter());
             });
+
+            builder.Services.AddTransient<ProblemDetailsFactory>();
+            builder.Services.AddProblemDetails(options =>
+                options.CustomizeProblemDetails = context =>
+                    ApiProblemDetails.ApplyDefaults(context.HttpContext, context.ProblemDetails));
 
             builder.Services.ConfigureRoutes();
         }

@@ -1,58 +1,44 @@
 ﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Net;
+using NetUtils.Aspnet.Errors;
 
-namespace NetUtils.Aspnet.Filters
+namespace NetUtils.Aspnet.Filters;
+
+public class GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger, IWebHostEnvironment hostEnvironment)
+    : IAsyncExceptionFilter
 {
-    public class GlobalExceptionFilter : IAsyncExceptionFilter
+    public Task OnExceptionAsync(ExceptionContext context)
     {
-        private readonly ILogger<GlobalExceptionFilter> _logger;
-        private readonly IWebHostEnvironment _hostEnvironment;
-        public GlobalExceptionFilter(ILogger<GlobalExceptionFilter> logger, IWebHostEnvironment hostEnvironment)
+        // A started response cannot be replaced. Let the exception middleware handle aborted requests.
+        if (context.HttpContext.Response.HasStarted
+            || context.Exception is OperationCanceledException && context.HttpContext.RequestAborted.IsCancellationRequested)
         {
-            _logger = logger;
-            _hostEnvironment = hostEnvironment;
+            return Task.CompletedTask;
         }
 
-        public async Task OnExceptionAsync(ExceptionContext context)
+        logger.LogError(
+            context.Exception,
+            "Unhandled controller exception. TraceId: {TraceId}",
+            ApiProblemDetails.GetTraceId(context.HttpContext));
+
+        var problem = ApiProblemDetails.FromException(context.HttpContext, context.Exception, hostEnvironment);
+        context.Result = new ObjectResult(problem)
         {
-            var exception = context.Exception;
+            StatusCode = problem.Status,
+            ContentTypes = { ApiProblemDetails.ContentType }
+        };
+        context.ExceptionHandled = true;
 
-            var innerMostException = GetInnerMostException(exception);
-            _logger.LogError(innerMostException, $"An unhandled exception occurred.{innerMostException.Message}");
-
-            var errorResponse = new ErrorResponse
-            {
-                StatusCode = (int)HttpStatusCode.InternalServerError,
-                Message = "Server error, please try again later on."
-            };
-
-            if (_hostEnvironment.IsDevelopment())
-            {
-                errorResponse.Message = innerMostException.Message;
-                errorResponse.Details = innerMostException.StackTrace;
-            }
-
-            context.ExceptionHandled = true;
-            await Task.CompletedTask;
-        }
-
-        private Exception GetInnerMostException(Exception exception)
-        {
-            while (exception.InnerException != null)
-            {
-                exception = exception.InnerException;
-            }
-            return exception;
-        }
+        return Task.CompletedTask;
     }
+}
 
-    public class ErrorResponse
-    {
-        public int StatusCode { get; set; }
-        public string Message { get; set; } = string.Empty;
-        public string? Details { get; set; }
-    }
+// Retained for source compatibility with existing consumers; the filter now returns ProblemDetails.
+public class ErrorResponse
+{
+    public int StatusCode { get; set; }
+    public string Message { get; set; } = string.Empty;
+    public string? Details { get; set; }
 }

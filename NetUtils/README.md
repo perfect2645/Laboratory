@@ -2,7 +2,7 @@
 
 ## Program.cs will be like this
 
-```CSharp
+```
 using Logging;
 using NetUtils.Aspnet.Configurations;
 using NetUtils.Aspnet.Configurations.Swagger;
@@ -31,12 +31,11 @@ var app = builder.Build();
 app.ConfigApp();
 
 app.Run();
-
 ```
 
 ## Add ServiceRegister.cs to your project
 
-```Csharp
+```
 using NetUtils.Aspnet.Configurations;
 using repository.doraemon.Repositories;
 using service.file.Configurations.DomainSettings;
@@ -60,7 +59,7 @@ namespace service.file.Configurations.Services
 
             private void RegisterMiddlewares()
             {
-                // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
+                // Learn more about configuring OpenAPI at [https://aka.ms/aspnet/openapi](https://aka.ms/aspnet/openapi)
                 builder.Services.AddOpenApi();
             }
 
@@ -72,7 +71,6 @@ namespace service.file.Configurations.Services
         }
     }
 }
-
 ```
 
 ## packages used
@@ -96,13 +94,13 @@ namespace service.file.Configurations.Services
 - Swagger configuration
 - CORS configuration
 
-```json
+```
 // appsettings.json
   "Cors": {
     "PolicyName": "SignalRReactCors",
     "AllowedOrigins": [
-      "https://localhost:3000",
-      "http://localhost:5173" // vite dev
+      "[https://localhost:3000](https://localhost:3000)",
+      "[http://localhost:5173](http://localhost:5173)" // vite dev
     ]
   },
 ```
@@ -116,6 +114,33 @@ namespace service.file.Configurations.Services
 
 The `GlobalExceptionFilter` is an ASP.NET Core filter that handles exceptions globally across the application.
 It captures unhandled exceptions thrown during the execution of controller actions and processes them in a centralized manner.
+
+When `RegisterCommonServices()` and `ConfigApp()` are used together, HTTP API errors
+return `application/problem+json` with the actual HTTP status code. The shared
+ProblemDetails factory gives controller exceptions, middleware exceptions, validation
+failures, and empty 4xx/5xx responses the same fields:
+
+```
+{
+  "type": "about:blank",
+  "title": "Internal Server Error",
+  "status": 500,
+  "detail": "An unexpected server error occurred. Please try again later.",
+  "instance": "/api/example",
+  "code": "INTERNAL_SERVER_ERROR",
+  "traceId": "request-trace-id"
+}
+```
+
+Validation responses additionally include `errors` and use `code: VALIDATION_ERROR`.
+Unhandled exceptions return HTTP 500 rather than an empty successful response.
+Production responses never include exception details or stack traces. Development
+responses include the root exception message in `detail` and the full exception chain
+in `exception`. The server logs the original controller exception with its `traceId`.
+
+Applications should let the global handler format unexpected failures instead of
+returning ad hoc error objects from individual controllers. Explicit response bodies
+and successful responses are preserved. SignalR hub protocol messages are unchanged.
 
 #### FileUploadOperationFilter
 
@@ -136,7 +161,7 @@ builder.AddSwaggerGenExt($"{typeof(Program).Assembly.GetName().Name}.xml", swagg
 
 - AddSqlServerContext
 
-```CSharp
+```
 var builder = WebApplication.CreateBuilder(args);
 
 // your configuration
@@ -146,7 +171,7 @@ builder.AddSqlServerContext<ShirtsDbContext>("Net10DemoDb");
 
 - Use repository pattern
 
-```CSharp
+```
     public interface IShirtRepository : IRepository<Shirt, int>
     {
         Task<Shirt?> GetByPropertiesAsync(string brand, string gender, string color, int size);
