@@ -126,10 +126,6 @@ public static class ClientRegistrationExt
         }
 
         httpClient.BaseAddress = options.BaseAddress;
-        if (!string.IsNullOrEmpty(options.Resource))
-        {
-            httpClient.BaseAddress = new Uri(httpClient.BaseAddress, options.Resource);
-        }
         httpClient.Timeout = options.Timeout;
         foreach ((string key, string value) in options.DefaultHeaders)
         {
