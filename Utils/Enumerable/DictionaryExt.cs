@@ -9,7 +9,7 @@ namespace Utils.Enumerable
     {
         #region Dictionary
 
-        extension<TKey, TValue>(Dictionary<TKey, TValue> dic) where TKey : notnull
+        extension<TKey, TValue>(IDictionary<TKey, TValue> dic) where TKey : notnull
         {
             public void AddOrUpdate(TKey key, TValue value)
             {
@@ -48,10 +48,22 @@ namespace Utils.Enumerable
 
                 return dic.Count > 0;
             }
+
+            public bool TryGetValueAs<TResult>(TKey key, out TResult value)
+            {
+                if (dic.TryGetValue(key, out var rawValue) && rawValue is TResult typedValue)
+                {
+                    value = typedValue;
+                    return true;
+                }
+
+                value = default!;
+                return false;
+            }
         }
 
 
-        extension(Dictionary<string, object> dic)
+        extension(IDictionary<string, object> dic)
         {
             public string ToJson()
             {
